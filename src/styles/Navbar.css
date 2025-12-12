@@ -1,0 +1,137 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 1rem 0;
+    background: var(--color-glass-bg);
+    /* Dynamic background */
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid var(--color-glass-border);
+}
+
+.navbar-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    /* Dynamic text */
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0.5rem 0;
+    transition: all 0.3s;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
+.logo .text-gradient {
+    background: var(--gradient-neon);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(var(--effect-text-glow));
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    /* Allow scrolling on overflow */
+    max-width: 100%;
+    overflow-x: auto;
+    /* Hide scrollbar but keep functionality */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+    white-space: nowrap;
+    padding-bottom: 5px;
+    /* Space for scroll */
+}
+
+/* Hide scrollbar for Chrome/Safari/Opera */
+.nav-links::-webkit-scrollbar {
+    display: none;
+}
+
+.nav-links li {
+    flex-shrink: 0;
+    /* Prevent squishing */
+}
+
+.nav-links a {
+    color: var(--color-text-primary);
+    /* Dynamic text */
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    transition: all 0.2s;
+}
+
+.nav-links a:hover {
+    color: var(--color-neon-blue);
+    background: var(--color-glass-border);
+}
+
+.cta-button {
+    background: var(--gradient-neon);
+    color: #000 !important;
+    font-weight: 800 !important;
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+}
+
+/* Specific Mobile Tweaks */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0.5rem 0;
+    }
+
+    .navbar-content {
+        gap: 0.5rem;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+    }
+
+    .nav-links {
+        width: 100%;
+        justify-content: flex-start;
+        /* Align left to invite scrolling */
+        padding: 0.5rem 1rem;
+        gap: 1rem;
+        /* Add gradient masks to hint scrolling */
+        mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+        -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+    }
+
+    .nav-links a {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.8rem;
+        background: rgba(255, 255, 255, 0.08);
+        /* Slight background for buttons */
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .cta-button {
+        background: var(--color-neon-blue);
+        /* Solid color for readability */
+    }
+}

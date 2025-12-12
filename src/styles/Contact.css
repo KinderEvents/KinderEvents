@@ -1,0 +1,29 @@
+.contact-wrapper {
+    padding: 4rem 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.contact-subtitle {
+    color: var(--color-text-secondary);
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.contact-actions {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.contact-actions .btn-primary,
+.contact-actions .btn-secondary {
+    min-width: 180px;
+    text-decoration: none;
+    display: inline-block;
+}

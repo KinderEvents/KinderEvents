@@ -1,0 +1,131 @@
+.mascot-container {
+    position: absolute;
+    right: -40px;
+    /* Slightly hanging off */
+    top: -110px;
+    /* Sitting above the bar */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 20;
+    pointer-events: none;
+    /* Let clicks pass through */
+    animation: floatMascot 4s ease-in-out infinite;
+}
+
+.mascot-body {
+    width: 120px;
+    /* Much bigger */
+    height: 120px;
+    position: relative;
+    /* Remove background circle, relying on image transparency */
+    filter: drop-shadow(0 0 20px rgba(189, 0, 255, 0.5));
+}
+
+.mascot-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.mascot-icon-fallback {
+    color: #bd00ff;
+    width: 100%;
+    height: 100%;
+}
+
+.speech-bubble {
+    background: white;
+    color: black;
+    padding: 0.8rem 1.2rem;
+    border-radius: 20px;
+    border-bottom-left-radius: 4px;
+    /* Comics style */
+    font-size: 0.95rem;
+    font-weight: 800;
+    margin-bottom: 5px;
+    margin-right: 60px;
+    /* Offset to the left of the head */
+    position: relative;
+    white-space: nowrap;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+    transform: rotate(-5deg);
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+.speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 70%;
+    /* Move tail to the right */
+    transform: translateX(-50%);
+    border-width: 8px 8px 0;
+    border-style: solid;
+    border-color: white transparent transparent transparent;
+}
+
+@keyframes floatMascot {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+@keyframes popIn {
+    from {
+        opacity: 0;
+        transform: scale(0.5) rotate(-5deg);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) rotate(-5deg);
+    }
+}
+
+@media (max-width: 768px) {
+    .mascot-container {
+        position: absolute;
+        right: auto;
+        left: 50%;
+        top: -100px;
+        /* Adjusted position */
+        transform: translateX(-50%) !important;
+        margin-bottom: 0;
+        animation: floatMascotMobile 3s ease-in-out infinite;
+    }
+
+    .mascot-body {
+        width: 100px;
+        /* Reduced from 140px to 100px */
+        height: 100px;
+    }
+
+    .speech-bubble {
+        margin-right: -80px;
+        font-size: 0.8rem;
+        padding: 0.5rem 0.8rem;
+    }
+
+    .speech-bubble::after {
+        left: 30%;
+    }
+}
+
+@keyframes floatMascotMobile {
+
+    0%,
+    100% {
+        transform: translate(-50%, 0);
+    }
+
+    50% {
+        transform: translate(-50%, -10px);
+    }
+}

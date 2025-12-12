@@ -1,0 +1,113 @@
+/* Full width container for the carousel */
+.container-fluid {
+    width: 100%;
+    max-width: 100% !important;
+    padding-left: 0;
+    padding-right: 0;
+    overflow: hidden;
+}
+
+.carousel-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 2rem 0;
+    /* Mask edges for a smooth fade effect */
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.carousel-track {
+    display: flex;
+    gap: 2rem;
+    width: max-content;
+    animation: scroll 40s linear infinite;
+}
+
+/* Pause on hover for interaction */
+.carousel-track:hover {
+    animation-play-state: paused;
+}
+
+.carousel-item {
+    position: relative;
+    width: 400px;
+    /* Rectangular width */
+    height: 250px;
+    /* Rectangular height */
+    border-radius: 16px;
+    overflow: hidden;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.carousel-item:hover {
+    transform: scale(1.05);
+    border-color: var(--color-neon-blue);
+    box-shadow: 0 10px 30px rgba(0, 243, 255, 0.2);
+}
+
+.carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.carousel-item:hover img {
+    transform: scale(1.1);
+}
+
+.carousel-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.5rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.carousel-item:hover .carousel-overlay {
+    transform: translateY(0);
+}
+
+.carousel-overlay h3 {
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 0.2rem;
+}
+
+.carousel-overlay span {
+    font-size: 0.8rem;
+    color: var(--color-neon-blue);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        /* Move half the width (since we duplicated the items) */
+        transform: translateX(-50%);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .carousel-item {
+        width: 300px;
+        height: 200px;
+    }
+
+    .carousel-track {
+        animation-duration: 30s;
+        /* Faster on mobile */
+    }
+}
