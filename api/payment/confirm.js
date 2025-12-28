@@ -95,6 +95,7 @@ export default async function handler(req, res) {
 
             // ENVOI EMAIL REÇU DE PAIEMENT
             try {
+                // 1. Send Receipt
                 await transporter.sendMail({
                     from: `"VisionR Finance" <${EMAIL_USER}>`,
                     to: customer_email,
@@ -130,7 +131,7 @@ export default async function handler(req, res) {
                                         <div style="font-size: 12px; margin-top: 10px; color: #64748B;">ID: ${transaction_id}</div>
                                     </div>
 
-                                    <p>Vous recevrez bientôt les instructions pour la suite.</p>
+                                    <p>Merci pour votre confiance. Un e-mail de bienvenue avec vos accès vient de vous être envoyé.</p>
                                 </div>
                                 <div class="footer">
                                     &copy; 2025 VisionR AI Agency
@@ -140,7 +141,70 @@ export default async function handler(req, res) {
                         </html>
                     `
                 });
-                console.log('Payment receipt sent to:', customer_email);
+
+                // 2. Send Welcome Email (only if it's a formation)
+                let customInfo = {};
+                try { customInfo = JSON.parse(custom_data); } catch (e) { }
+
+                if (customInfo.type === 'formation') {
+                    await transporter.sendMail({
+                        from: `"VisionR Support" <${EMAIL_USER}>`,
+                        to: customer_email,
+                        subject: "✨ Bienvenue dans le Cercle VisionR",
+                        html: `
+                            <!DOCTYPE html>
+                            <html>
+                            <head>
+                                <style>
+                                    body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #F8FAFC; margin: 0; padding: 0; }
+                                    .container { max-width: 600px; margin: 40px auto; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.05); }
+                                    .header { background-color: #0F172A; padding: 40px 20px; text-align: center; }
+                                    .logo-text { color: #ffffff; font-size: 24px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; }
+                                    .logo-accent { color: #F59E0B; }
+                                    .content { padding: 40px 30px; color: #334155; line-height: 1.6; }
+                                    .h1 { color: #0F172A; font-size: 22px; font-weight: 700; margin-top: 0; margin-bottom: 20px; }
+                                    .highlight-box { background-color: #FFFBEB; border-left: 4px solid #F59E0B; padding: 20px; margin: 25px 0; border-radius: 4px; }
+                                    .button { display: inline-block; background: linear-gradient(135deg, #2563EB, #1D4ED8); color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 50px; font-weight: 600; margin-top: 10px; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3); }
+                                    .footer { background-color: #F1F5F9; padding: 20px; text-align: center; color: #94A3B8; font-size: 12px; }
+                                </style>
+                            </head>
+                            <body>
+                                <div class="container">
+                                    <div class="header">
+                                        <div class="logo-text">Vision<span class="logo-accent">R</span></div>
+                                        <div style="color: #64748B; font-size: 12px; margin-top: 5px; letter-spacing: 1px;">AGENCE IA PREMIUM</div>
+                                    </div>
+                                    <div class="content">
+                                        <h1 class="h1">Félicitations, l'aventure commence.</h1>
+                                        <p>Bonjour <strong>${customer_name}</strong>,</p>
+                                        <p>Votre paiement a été validé ! Votre inscription pour <strong>${customInfo.pack || 'Formation VisionR'}</strong> est désormais officielle.</p>
+                                        
+                                        <div class="highlight-box">
+                                            <p style="margin: 0; font-weight: 600; color: #B45309;">🚀 Prochaine étape immédiate</p>
+                                            <p style="margin: 10px 0 0 0;">Notre équipe d'experts va vous contacter sur WhatsApp au <strong>${customer_phone || 'votre numéro'}</strong> sous 24h pour vous donner vos accès.</p>
+                                        </div>
+
+                                        <p>En attendant, préparez-vous à voir votre business sous un nouvel angle.</p>
+                                        
+                                        <center style="margin-top: 30px;">
+                                            <a href="https://www.instagram.com/ecstasy_23d?igsh=MTdoMzdqMHkwdzhmbA%3D%3D&utm_source=qr" class="button">Découvrir nos réalisations (Instagram)</a>
+                                            <div style="margin-top: 20px;">
+                                                <a href="https://wa.me/221704925239" style="color: #2563EB; text-decoration: none; font-weight: 600;">Ou écrivez-nous sur WhatsApp</a>
+                                            </div>
+                                        </center>
+                                    </div>
+                                    <div class="footer">
+                                        &copy; 2025 VisionR AI Agency. Tous droits réservés.<br>
+                                        Dakar, Sénégal
+                                    </div>
+                                </div>
+                            </body>
+                            </html>
+                        `
+                    });
+                }
+
+                console.log('Confirmation emails sent to:', customer_email);
             } catch (emailErr) {
                 console.error('Email error:', emailErr);
             }

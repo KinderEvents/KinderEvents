@@ -51,13 +51,16 @@ export default async function handler(req, res) {
             pack_name         // Nom du pack
         } = req.body;
 
+        console.log('🚀 Initiating Payment:', { customer_name, amount, pack_name });
+
         // Use a fallback if email is missing (PayDunya often requires an email)
         const finalEmail = customer_email || 'client@visionr-studio.com';
+        const finalAmount = parseInt(amount);
 
         // Validation
-        if (!amount || !customer_name) {
+        if (isNaN(finalAmount) || !customer_name) {
             return res.status(400).json({
-                error: 'Données manquantes (amount et customer_name requis)'
+                error: 'Données manquantes ou invalides (amount et customer_name requis)'
             });
         }
 
@@ -68,17 +71,17 @@ export default async function handler(req, res) {
         invoice.addItem(
             pack_name || 'Formation VisionR',
             1,
-            amount,
-            amount,
+            finalAmount,
+            finalAmount,
             description || `Paiement ${pack_name}`
         );
 
         // Total
-        invoice.totalAmount = amount;
+        invoice.totalAmount = finalAmount;
 
-        // URLs de callback
-        invoice.callbackURL = PAYDUNYA_CONFIG.CALLBACK_URL;
-        invoice.returnURL = PAYDUNYA_CONFIG.CALLBACK_URL;
+        // URLs de callback (Updated to kinder-events domain)
+        invoice.callbackURL = PAYDUNYA_CONFIG.IPN_URL; // Official IPN
+        invoice.returnURL = PAYDUNYA_CONFIG.CALLBACK_URL; // Return after success
         invoice.cancelURL = PAYDUNYA_CONFIG.CANCEL_URL;
 
         // Données personnalisées (pour l'IPN)
@@ -96,33 +99,31 @@ export default async function handler(req, res) {
         }
 
         // Créer la facture
-        const result = await new Promise((resolve, reject) => {
-            invoice.create()
-                .then(resolve)
-                .catch(reject);
-        });
+        console.log('📦 Creating Invoice...');
+        const result = await invoice.create();
+
+        console.log('✅ PayDunya Result:', result.status);
 
         if (result.status === 'success') {
-            // Retourner l'URL de paiement
             return res.status(200).json({
                 success: true,
-                payment_url: result.response_text, // URL vers laquelle rediriger le client
-                token: result.token,
-                invoice_data: result
+                payment_url: result.response_text,
+                token: result.token
             });
         } else {
+            console.error('❌ PayDunya Failed:', result.response_text);
             return res.status(400).json({
                 success: false,
-                error: result.response_text
+                error: result.response_text || 'Erreur PayDunya lors de la création'
             });
         }
 
     } catch (error) {
-        console.error('❌ Erreur Critique PayDunya:', error);
+        console.error('❌ EXCEPTION PayDunya:', error);
         return res.status(500).json({
             success: false,
-            error: error.message,
-            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+            error: `Erreur Critique: ${error.message}`,
+            details: error.stack
         });
     }
 }
