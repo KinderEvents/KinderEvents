@@ -20,7 +20,7 @@ const PAYDUNYA_CONFIG = {
     STORE_NAME: 'VisionR AI Studio',
     STORE_TAGLINE: 'Formation & Services IA',
     STORE_PHONE: '+221 70 492 52 39',
-    STORE_LOGO: 'https://kinder-events.vercel.app/logo.png',
+    STORE_LOGO: 'https://kinder-events.vercel.app/vite.svg',
     STORE_WEBSITE: 'https://kinder-events.vercel.app'
 };
 

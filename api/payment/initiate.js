@@ -100,7 +100,15 @@ export default async function handler(req, res) {
 
         // Créer la facture
         console.log('📦 Creating Invoice...');
-        const result = await invoice.create();
+        const result = await new Promise((resolve) => {
+            invoice.create((status) => {
+                resolve({
+                    status,
+                    response_text: invoice.responseText,
+                    token: invoice.token
+                });
+            });
+        });
 
         console.log('✅ PayDunya Result:', result.status);
 
