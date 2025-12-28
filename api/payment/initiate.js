@@ -53,11 +53,9 @@ export default async function handler(req, res) {
 
         console.log('🚀 Initiating Payment:', { customer_name, amount, pack_name });
 
-        // Use a fallback if email is missing (PayDunya often requires an email)
         const finalEmail = customer_email || 'client@visionr-studio.com';
         const finalAmount = parseInt(amount);
 
-        // Validation
         if (isNaN(finalAmount) || !customer_name) {
             return res.status(400).json({
                 error: 'Données manquantes ou invalides (amount et customer_name requis)'
@@ -76,37 +74,31 @@ export default async function handler(req, res) {
             description || `Paiement ${pack_name}`
         );
 
-        // Total
         invoice.totalAmount = finalAmount;
 
-        // URLs de callback (Updated to kinder-events domain)
-        invoice.callbackURL = PAYDUNYA_CONFIG.IPN_URL; // Official IPN
-        invoice.returnURL = PAYDUNYA_CONFIG.CALLBACK_URL; // Return after success
+        // URLs (Updated to kinder-events)
+        invoice.callbackURL = PAYDUNYA_CONFIG.IPN_URL;
+        invoice.returnURL = PAYDUNYA_CONFIG.CALLBACK_URL;
         invoice.cancelURL = PAYDUNYA_CONFIG.CANCEL_URL;
 
-        // Données personnalisées (pour l'IPN)
+        // Données personnalisées
         invoice.customData = JSON.stringify({
             type: pack_type,
             pack: pack_name,
             email: finalEmail
         });
 
-        // Informations client
         invoice.addCustomData('Nom', customer_name);
         invoice.addCustomData('Email', finalEmail);
         if (customer_phone) {
             invoice.addCustomData('Téléphone', customer_phone);
         }
 
-        // Créer la facture
+        // Créer la facture avec le bon pattern de callback
         console.log('📦 Creating Invoice...');
         const result = await new Promise((resolve) => {
-            invoice.create((status) => {
-                resolve({
-                    status,
-                    response_text: invoice.responseText,
-                    token: invoice.token
-                });
+            invoice.create((status, response) => {
+                resolve({ status, response });
             });
         });
 
@@ -115,14 +107,19 @@ export default async function handler(req, res) {
         if (result.status === 'success') {
             return res.status(200).json({
                 success: true,
-                payment_url: result.response_text,
-                token: result.token
+                payment_url: invoice.getInvoiceUrl(),
+                token: invoice.token
             });
         } else {
-            console.error('❌ PayDunya Failed:', result.response_text);
+            console.error('❌ PayDunya Failed Detail:', result.status, result.response);
             return res.status(400).json({
                 success: false,
-                error: result.response_text || 'Erreur PayDunya lors de la création'
+                error: invoice.responseText || 'Échec création PayDunya',
+                debug: {
+                    status: result.status,
+                    response: result.response,
+                    responseText: invoice.responseText
+                }
             });
         }
 
