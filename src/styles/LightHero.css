@@ -1,0 +1,263 @@
+/* LightHero.css */
+
+.light-hero-container {
+    position: relative;
+    min-height: 90vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 8rem 2rem 4rem;
+    align-items: center;
+    background: transparent;
+    overflow: visible;
+    /* To allow blobs to show if needed, but they are inside fluid-bg which is hidden */
+}
+
+/* Fluid Background */
+.fluid-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.hero-content-left {
+    position: relative;
+    z-index: 10;
+    text-align: left;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    color: #0F172A;
+    font-weight: 800;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: #64748B;
+    margin-bottom: 2.5rem;
+    max-width: 600px;
+}
+
+.cta-group {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, #2563EB, #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-visual-right {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-visual-card {
+    width: 100%;
+    height: 500px;
+    background: radial-gradient(circle at center, rgba(37, 99, 235, 0.05), transparent);
+    position: relative;
+    border-radius: 30px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.animated-shapes-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+}
+
+.shape {
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    transition: all 0.5s ease;
+}
+
+.shape-1 {
+    border: 2px solid #2563EB;
+    transform: rotate(15deg);
+    opacity: 0.2;
+}
+
+.shape-2 {
+    border: 2px solid #F59E0B;
+    transform: rotate(-10deg);
+    opacity: 0.2;
+}
+
+.shape-main {
+    background: linear-gradient(135deg, #2563EB, #4F46E5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 800;
+    font-size: 3rem;
+    box-shadow: 0 20px 25px -5px rgba(37, 99, 235, 0.3);
+}
+
+.hero-visual-card:hover .shape-1 {
+    transform: rotate(25deg) scale(1.1);
+}
+
+.hero-visual-card:hover .shape-2 {
+    transform: rotate(-20deg) scale(1.1);
+}
+
+/* Rest of the original styles ... */
+@media (max-width: 992px) {
+    .light-hero-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 4rem 1.5rem 3rem;
+        min-height: auto;
+    }
+
+    .hero-content-left {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero-title {
+        font-size: 2.5rem;
+        line-height: 1.2;
+    }
+
+    .hero-subtitle {
+        margin: 0 auto 2rem;
+        font-size: 1.1rem;
+    }
+
+    .cta-group {
+        justify-content: center;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+        justify-content: center;
+        width: 100%;
+        padding: 14px 24px;
+    }
+
+    .hero-stats {
+        padding: 1.5rem;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .hero-visual-right {
+        display: none;
+    }
+}
+
+@media (max-width: 640px) {
+    .light-hero-container {
+        padding: 3rem 1rem 2rem;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .pill-badge {
+        font-size: 0.85rem;
+        padding: 6px 14px;
+    }
+
+    .cta-group {
+        gap: 0.75rem;
+        margin-bottom: 2rem;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+        padding: 12px 20px;
+        font-size: 0.95rem;
+    }
+
+    .hero-stats {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .stat-item {
+        flex: 1;
+        min-width: 100px;
+    }
+
+    .stat-number {
+        font-size: 1.5rem;
+    }
+
+    .stat-label {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .light-hero-container {
+        padding: 2rem 1rem 1.5rem;
+    }
+
+    .hero-title {
+        font-size: 1.75rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .hero-subtitle {
+        font-size: 0.95rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .hero-stats {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 0.75rem;
+    }
+
+    .separator {
+        display: none;
+    }
+
+    .stat-item {
+        width: 100%;
+    }
+}

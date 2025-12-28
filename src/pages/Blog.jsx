@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Calendar, User, ArrowRight, Tag } from 'lucide-react';
+import NewsletterSignup from '../components/NewsletterSignup';
 import '../styles/Blog.css';
 
 const articles = [
@@ -81,6 +82,10 @@ const Blog = () => {
                         </div>
                     </article>
                 ))}
+            </div>
+
+            <div style={{ marginTop: '5rem' }}>
+                <NewsletterSignup />
             </div>
         </div>
     );

@@ -7,33 +7,23 @@
     padding: 0;
 }
 
-html {
-    scroll-behavior: smooth;
-}
-
+html,
 body {
-    background-color: var(--color-bg-dark);
-    color: var(--color-text-primary);
-    font-family: var(--font-main);
     overflow-x: hidden;
-    line-height: 1.6;
-    text-align: center;
     width: 100%;
     margin: 0;
     padding: 0;
-    padding-top: 140px;
-    /* Account for fixed header height (Logo + Nav) */
-    /* Force global centering */
-    background-image:
-        radial-gradient(circle at 50% 0%, rgba(26, 26, 46, 0.5) 0%, transparent 60%),
-        radial-gradient(circle at 50% 100%, rgba(26, 26, 46, 0.5) 0%, transparent 60%);
-    background-attachment: fixed;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    box-sizing: border-box;
 }
 
-[data-theme='light'] body {
-    background-image: none;
-    /* Clean white/gray background for light mode */
+body {
+    background-color: var(--color-bg-main) !important;
+    color: var(--color-text-primary) !important;
+    font-family: var(--font-main);
+    line-height: 1.6;
+    text-align: center;
+    padding-top: 80px;
+    /* Fixed Navbar Height */
 }
 
 #root {
@@ -43,127 +33,95 @@ body {
     flex-direction: column;
 }
 
-a,
-button,
-.carousel-item,
-.mobile-toggle,
-.logo {
-    cursor: pointer !important;
-}
-
-/* Global Click Animation */
-a:active,
-button:active,
-.carousel-item:active {
-    transform: scale(0.95);
-}
-
 a {
     text-decoration: none;
     color: inherit;
-    transition: var(--transition-fast);
+    transition: all 0.2s ease;
+    cursor: pointer;
 }
 
 button {
-    transition: var(--transition-normal);
+    cursor: pointer;
+    font-family: var(--font-main);
 }
 
 /* Utilities */
 .container {
-    max-width: 1400px;
-    /* Wider immersive container */
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* Center flex children */
+    padding: 0 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .section-padding {
-    display: flex;
-    /* Enforce flex centering at section level if needed */
-    flex-direction: column;
-    align-items: center;
-    padding: 8rem 0;
-    /* More breathing room */
+    padding: 6rem 0;
 }
 
 .section-title {
-    font-size: 3.5rem;
-    /* Larger titles */
-    margin-bottom: 5rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    background: linear-gradient(180deg, #fff 0%, #aaa 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: var(--effect-text-glow);
-    /* Dynamic Shadow */
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--color-text-primary);
+    margin-bottom: 3rem;
+    letter-spacing: -0.05em;
+    text-transform: none;
+    /* Removed uppercase for classier look */
 }
 
-/* Light Mode Title Override */
-[data-theme='light'] .section-title {
-    background: linear-gradient(180deg, #111827 0%, #4b5563 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: none;
-}
-
-.text-gradient {
-    background: var(--gradient-neon);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(var(--effect-text-glow));
-    /* Dynamic Glow/Shadow */
-}
-
+/* Prestige Glass Panel - Light */
 .glass-panel {
-    background: var(--color-glass-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--color-glass-border);
-    border-radius: 24px;
-    box-shadow: var(--shadow-lg);
-    transition: var(--transition-normal);
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.fade-in-section {
-    opacity: 1;
-    /* Was 0 - Safety fix */
-    transform: none;
-    /* Was translateY */
-    /* transition: opacity 1s ease-out... removed for safety */
+.glass-panel:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-.fade-in-section.visible {
-    opacity: 1;
-    transform: translateY(0);
+/* Text Gradients */
+.text-gradient {
+    background: var(--gradient-action);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-/* Responsive Typography & Spacing */
+/* Responsive */
 @media (max-width: 768px) {
-    .section-title {
-        font-size: 2.5rem;
-        margin-bottom: 3rem;
+    body {
+        padding-top: 80px;
     }
 
     .section-padding {
-        padding: 5rem 0;
+        padding: 3rem 0;
+    }
+
+    .section-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
     }
 
     .container {
-        padding: 0 1.5rem;
+        padding: 0 1rem;
     }
 }
 
 @media (max-width: 480px) {
-    .section-title {
-        font-size: 2rem;
+    .section-padding {
+        padding: 2.5rem 0;
     }
 
-    .section-padding {
-        padding: 4rem 0;
+    .section-title {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .container {
+        padding: 0 1rem;
+        overflow-x: hidden;
     }
 }

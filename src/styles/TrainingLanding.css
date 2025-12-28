@@ -1,0 +1,377 @@
+/* VisionR Prestige - Training Landing Page Styles */
+
+.training-page {
+    background-color: #F1F5F9;
+    color: #0F172A;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+}
+
+.t-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* HERO SECTION */
+.t-hero {
+    padding: 8rem 0 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.t-badge {
+    display: inline-block;
+    background: #DBEAFE;
+    color: #2563EB;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+}
+
+.t-hero h1 {
+    font-size: 3.5rem;
+    line-height: 1.1;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    color: #0F172A;
+}
+
+.t-hero p {
+    font-size: 1.25rem;
+    color: #475569;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+    max-width: 90%;
+}
+
+.t-btn-primary {
+    background: #2563EB;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.4);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.t-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px -5px rgba(37, 99, 235, 0.5);
+    background: #1D4ED8;
+}
+
+.t-hero-visual {
+    position: relative;
+    perspective: 1000px;
+}
+
+.t-phone-mockup {
+    width: 300px;
+    height: 600px;
+    background: #0F172A;
+    border-radius: 40px;
+    border: 8px solid #334155;
+    margin: 0 auto;
+    position: relative;
+    box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    transform: rotateY(-15deg) rotateX(5deg);
+    transition: transform 0.5s ease;
+}
+
+.t-phone-mockup:hover {
+    transform: rotateY(0deg) rotateX(0deg);
+}
+
+.t-phone-screen {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, #1E293B 0%, #0F172A 100%);
+    position: relative;
+    padding: 20px;
+}
+
+.t-notif {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transform: translateY(20px);
+    opacity: 0;
+    animation: slideUp 0.5s forwards;
+}
+
+@keyframes slideUp {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* PROBLEM SECTION */
+.t-section {
+    padding: 6rem 0;
+}
+
+.t-section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 4rem;
+}
+
+.t-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.t-card-problem {
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+    border: 1px solid #E2E8F0;
+    transition: transform 0.3s;
+}
+
+.t-card-problem:hover {
+    transform: translateY(-5px);
+}
+
+.t-icon-box {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.t-icon-red {
+    background: #FEF2F2;
+    color: #EF4444;
+}
+
+.t-icon-orange {
+    background: #FFF7ED;
+    color: #F97316;
+}
+
+/* CURRICULUM */
+.t-curriculum-list {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 3rem;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05);
+}
+
+.t-check-item {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    align-items: flex-start;
+}
+
+/* PRICING */
+.t-pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    align-items: center;
+}
+
+.t-price-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 24px;
+    border: 2px solid #E2E8F0;
+    text-align: center;
+    position: relative;
+}
+
+.t-price-highlight {
+    border-color: transparent;
+    background: linear-gradient(white, white) padding-box,
+        linear-gradient(135deg, #2563EB, #F59E0B) border-box;
+    transform: scale(1.05);
+    box-shadow: 0 25px 50px -12px rgba(37, 99, 235, 0.25);
+    z-index: 10;
+}
+
+.t-price-badge {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #F59E0B;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+}
+
+.t-btn-outline {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #0F172A;
+    background: transparent;
+    color: #0F172A;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.t-btn-outline:hover {
+    background: #0F172A;
+    color: white;
+}
+
+.t-btn-grad {
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    background: linear-gradient(135deg, #2563EB 0%, #4F46E5 100%);
+    color: white;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.4);
+    transition: transform 0.2s;
+}
+
+.t-btn-grad:hover {
+    transform: scale(1.02);
+}
+
+/* TRUST */
+.t-trust {
+    text-align: center;
+    padding: 4rem 0;
+    background: white;
+    border-top: 1px solid #E2E8F0;
+}
+
+/* STICKY FOOTER */
+.t-sticky-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    padding: 1rem;
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+    display: none;
+    /* Mobile only usually */
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    border-top: 1px solid #E2E8F0;
+}
+
+@media (max-width: 768px) {
+    .t-hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 3rem;
+    }
+
+    .t-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .t-hero p {
+        margin: 0 auto 2rem;
+    }
+
+    .t-price-highlight {
+        transform: scale(1);
+    }
+
+    .t-sticky-footer {
+        display: flex;
+    }
+
+    .t-hero-visual {
+        display: none;
+    }
+
+    /* Hide 3D on small mobile if too complex, or adjust */
+    .t-hero-visual.mobile-visible {
+        display: block;
+        margin-top: 2rem;
+    }
+
+    .t-pricing-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .t-price-card {
+        padding: 1.5rem;
+    }
+
+    .t-bio {
+        flex-direction: column;
+        text-align: center !important;
+        gap: 1.5rem !important;
+    }
+
+    .t-bio-img {
+        margin: 0 auto;
+    }
+}
+
+/* Bio Styles */
+.t-bio {
+    margin-top: 5rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    background: #F8FAFC;
+    padding: 2rem;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    text-align: left;
+    border: 1px solid #E2E8F0;
+}
+
+.t-bio-img {
+    width: 80px;
+    height: 80px;
+    background: #CBD5E1;
+    border-radius: 50%;
+    flex-shrink: 0;
+}

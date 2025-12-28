@@ -1,5 +1,6 @@
 import React from 'react';
 import { Mail, TrendingUp, Zap, Newspaper } from 'lucide-react';
+import NewsletterSignup from './NewsletterSignup';
 import '../styles/NewsTrends.css';
 
 const trends = [
@@ -30,23 +31,12 @@ const NewsTrends = () => {
                 ))}
             </div>
 
-            <div className="newsletter-wrapper glass-panel">
-                <div className="newsletter-content">
-                    <div className="newsletter-header">
-                        <Newspaper size={40} className="text-neon" />
-                        <h3>La Veille VisionR</h3>
-                    </div>
-                    <p>Recevez chaque semaine les dernières innovations de l'Intelligence Artificielle appliquée au Marketing.</p>
-                    <form className="newsletter-form" onSubmit={(e) => e.preventDefault()}>
-                        <div className="input-group">
-                            <Mail className="input-icon" size={20} />
-                            <input type="email" placeholder="Votre email professionnel" required />
-                        </div>
-                        <button type="submit" className="btn-primary">M'abonner</button>
-                    </form>
-                </div>
+
+
+            <div style={{ marginTop: '4rem' }}>
+                <NewsletterSignup />
             </div>
-        </section>
+        </section >
     );
 };
 

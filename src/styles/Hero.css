@@ -5,7 +5,6 @@
     justify-content: center;
     position: relative;
     overflow: hidden;
-    perspective: 1000px;
 }
 
 .hero-bg-animation {
@@ -13,7 +12,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     background: radial-gradient(circle at center, #0a0a0a 0%, #000 100%);
     z-index: -2;
@@ -63,8 +62,8 @@
     letter-spacing: -2px;
     text-transform: uppercase;
     color: var(--color-text-primary);
-    /* Dynamic: white in dark, black in light */
     animation: heroTextEnter 1.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    word-break: keep-all;
 }
 
 @keyframes heroTextEnter {
@@ -79,12 +78,11 @@
     }
 }
 
-[data-theme='light'] .hero-title .text-gradient {
+.hero-title .text-gradient {
     background: linear-gradient(135deg, #2563eb, #7c3aed);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    color: transparent;
 }
 
 .hero-subtitle {
@@ -233,13 +231,14 @@
 /* Hero Responsiveness */
 @media (max-width: 768px) {
     .hero-title {
-        font-size: 3rem;
+        font-size: 2.5rem;
         line-height: 1.1;
     }
 
     .hero-subtitle {
-        font-size: 1.1rem;
-        margin-bottom: 3rem;
+        font-size: 1rem;
+        margin-bottom: 2.5rem;
+        padding: 0 1rem;
     }
 
     .hero-cta-group {
@@ -259,11 +258,10 @@
     /* Mobile adjustments for Search Bar */
     .hero-search-container {
         flex-direction: column;
-        margin-top: 5rem;
-        /* More space for the giant mascot */
+        margin-top: 3rem;
         padding: 0 1rem;
-        width: 95%;
-        /* Use almost full width */
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .input-wrapper {
@@ -299,6 +297,15 @@
 
 @media (max-width: 480px) {
     .hero-title {
-        font-size: 2.5rem;
+        font-size: 2rem;
+    }
+
+    .btn-search {
+        width: 50px;
+        height: 50px;
+    }
+
+    .input-wrapper input {
+        font-size: 1rem;
     }
 }

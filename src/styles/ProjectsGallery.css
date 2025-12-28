@@ -1,4 +1,3 @@
-/* Full width container for the carousel */
 .container-fluid {
     width: 100%;
     max-width: 100% !important;
@@ -12,9 +11,11 @@
     overflow: hidden;
     position: relative;
     padding: 2rem 0;
-    /* Mask edges for a smooth fade effect */
-    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    /* Mask: Fade out edges for clean look */
+    mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+    background: transparent;
+    /* Ensure no dark bg */
 }
 
 .carousel-track {
@@ -24,7 +25,6 @@
     animation: scroll 40s linear infinite;
 }
 
-/* Pause on hover for interaction */
 .carousel-track:hover {
     animation-play-state: paused;
 }
@@ -32,21 +32,21 @@
 .carousel-item {
     position: relative;
     width: 400px;
-    /* Rectangular width */
     height: 250px;
-    /* Rectangular height */
     border-radius: 16px;
     overflow: hidden;
     flex-shrink: 0;
     cursor: pointer;
     transition: transform 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid #E2E8F0;
+    background: #FFFFFF;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .carousel-item:hover {
-    transform: scale(1.05);
-    border-color: var(--color-neon-blue);
-    box-shadow: 0 10px 30px rgba(0, 243, 255, 0.2);
+    transform: scale(1.02);
+    border-color: #2563EB;
+    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2);
 }
 
 .carousel-item img {
@@ -57,35 +57,48 @@
 }
 
 .carousel-item:hover img {
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
+/* Light Overlay for Text Readability */
 .carousel-overlay {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
     padding: 1.5rem;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+    background: rgba(255, 255, 255, 0.9);
+    /* White overlay instead of black */
+    backdrop-filter: blur(5px);
+    border-top: 1px solid #E2E8F0;
     transform: translateY(100%);
+    /* Hidden by default */
     transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
+/* Always show overlay on hover, or permanently if preferred for prestige look */
 .carousel-item:hover .carousel-overlay {
     transform: translateY(0);
 }
 
 .carousel-overlay h3 {
-    font-size: 1.2rem;
-    color: #fff;
+    font-size: 1.1rem;
+    color: #0F172A;
+    /* Midnight */
     margin-bottom: 0.2rem;
+    font-weight: 700;
 }
 
 .carousel-overlay span {
     font-size: 0.8rem;
-    color: var(--color-neon-blue);
+    color: #2563EB;
+    /* Royal Blue */
     text-transform: uppercase;
     font-weight: 700;
+    letter-spacing: 0.5px;
 }
 
 @keyframes scroll {
@@ -94,20 +107,85 @@
     }
 
     100% {
-        /* Move half the width (since we duplicated the items) */
         transform: translateX(-50%);
     }
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
+    .carousel-container {
+        padding: 1.5rem 0;
+        /* Remove mask on mobile to avoid visual issues */
+        mask-image: none;
+        -webkit-mask-image: none;
+    }
+
     .carousel-item {
-        width: 300px;
+        width: 280px;
         height: 200px;
     }
 
     .carousel-track {
         animation-duration: 30s;
-        /* Faster on mobile */
+        gap: 1.5rem;
+    }
+
+    .carousel-overlay h3 {
+        font-size: 1rem;
+    }
+
+    .carousel-overlay span {
+        font-size: 0.75rem;
+    }
+
+    /* Show overlay permanently on mobile */
+    .carousel-overlay {
+        transform: translateY(0);
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.95);
+    }
+}
+
+@media (max-width: 480px) {
+    .carousel-container {
+        padding: 1rem 0;
+        overflow-x: auto;
+        /* IMPORTANT: Enable scrolling */
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        /* Hide scrollbar */
+        scrollbar-width: none;
+    }
+
+    .carousel-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    .carousel-item {
+        width: 260px;
+        height: 180px;
+        scroll-snap-align: center;
+        margin-right: 0;
+        /* Handled by gap */
+    }
+
+    .carousel-track {
+        gap: 1rem;
+        /* Stop animation to allow manual scroll */
+        animation: none;
+        width: max-content;
+        padding: 0 1rem;
+        /* Start padding */
+    }
+
+    .carousel-overlay {
+        padding: 0.875rem;
+    }
+
+    .carousel-overlay h3 {
+        font-size: 0.95rem;
+    }
+
+    .carousel-overlay span {
+        font-size: 0.7rem;
     }
 }

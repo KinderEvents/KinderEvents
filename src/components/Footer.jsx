@@ -11,8 +11,8 @@ const Footer = () => {
                 </div>
                 <div className="footer-links">
                     <a href="/mentions">Mentions Légales</a>
-                    <a href="#contact">Contact</a>
-                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a>
+                    <a href="https://wa.me/221704925239" target="_blank" rel="noopener noreferrer">WhatsApp: 70 492 52 39</a>
+                    <a href="https://www.instagram.com/ecstasy_23d?igsh=MTdoMzdqMHkwdzhmbA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">Instagram</a>
                 </div>
             </div>
             <div className="text-center copyright">

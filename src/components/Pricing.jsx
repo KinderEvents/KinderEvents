@@ -55,23 +55,6 @@ const Pricing = () => {
                         <li><Check size={18} /> Incrustation Pro (Reflets)</li>
                         <li><Clock size={18} /> Délai: 7 Jours</li>
                     </ul>
-                    <Link to="/booking" className="btn-secondary w-full text-center" style={{ display: 'block', marginTop: 'auto' }}>Choisir ce Pack</Link>
-                </div>
-
-                {/* Pack 3 - Best Seller */}
-                <div className="pricing-card glass-panel best-seller">
-                    <div className="badge">⭐ Best-Seller</div>
-                    <div className="card-header">
-                        <h3>Pack "Tasty Viral"</h3>
-                        <p className="price">200 000 FCFA</p>
-                    </div>
-                    <ul className="features-list">
-                        <li><Clock size={18} /> 30 Secondes</li>
-                        <li><Music size={18} /> Sound Design ASMR</li>
-                        <li><Droplet size={18} /> Physique des fluides avancée</li>
-                        <li><Check size={18} /> Incrustation Pro (Reflets)</li>
-                        <li><Clock size={18} /> Délai: 7 Jours</li>
-                    </ul>
                     <Link to="/booking" className="btn-primary w-full text-center" style={{ display: 'block' }}>Choisir ce Pack</Link>
                 </div>
 

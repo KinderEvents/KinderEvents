@@ -25,12 +25,58 @@
 .best-seller {
     background: var(--color-glass-bg);
     border: 2px solid var(--color-neon-blue);
-    transform: scale(1.05);
     box-shadow: var(--effect-box-glow);
 }
 
-.best-seller:hover {
-    transform: scale(1.08);
+@media (min-width: 768px) {
+    .best-seller {
+        transform: scale(1.05);
+    }
+
+    .best-seller:hover {
+        transform: scale(1.08);
+    }
+}
+
+@media (max-width: 767px) {
+    .pricing-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pricing-card {
+        padding: 2rem;
+    }
+
+    .card-header h3 {
+        font-size: 1.3rem;
+    }
+
+    .price {
+        font-size: 2rem;
+    }
+
+    .features-list li {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .pricing-card {
+        padding: 1.5rem;
+    }
+
+    .card-header h3 {
+        font-size: 1.2rem;
+    }
+
+    .price {
+        font-size: 1.75rem;
+    }
+
+    .features-list li {
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
+    }
 }
 
 .card-header h3 {

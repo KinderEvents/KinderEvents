@@ -1,46 +1,72 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
-import { ThemeToggle } from './index';
+import { Menu, X, Calendar } from 'lucide-react';
+import { CalendlyModal } from './index';
 import '../styles/Navbar.css';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [isCalendlyOpen, setIsCalendlyOpen] = useState(false);
     const location = useLocation();
 
-    const toggleMenu = () => setIsOpen(!isOpen);
+    // Helper for smooth scroll or navigation
+    const getLink = (hash) => {
+        return location.pathname === '/' ? hash : `/${hash}`;
+    };
 
-    // Function to handle scroll anchors on home page vs navigation on other pages
-    const getLink = (anchor) => {
-        if (location.pathname === '/') {
-            return anchor;
-        }
-        return `/${anchor}`;
+    const toggleMenu = () => {
+        setIsOpen(!isOpen);
+    };
+
+    const closeMenu = () => {
+        setIsOpen(false);
     };
 
     return (
-        <nav className="navbar glass-panel">
-            <Link to="/" className="logo" onClick={() => window.scrollTo(0, 0)}>
-                VISIONR <span className="text-gradient">AI STUDIO</span>
-            </Link>
+        <>
+            <CalendlyModal isOpen={isCalendlyOpen} onClose={() => setIsCalendlyOpen(false)} />
 
-            <div className="mobile-toggle" onClick={toggleMenu}>
-                {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </div>
+            <nav className="navbar">
+                <div className="navbar-container container">
+                    <Link to="/" className="navbar-logo" onClick={closeMenu}>
+                        VISIONR <span className="logo-highlight">STUDIO</span>
+                    </Link>
 
-            <div className={`nav-actions ${isOpen ? 'active' : ''}`}>
-                <ul className="nav-links">
-                    <li><Link to="/" onClick={() => window.scrollTo(0, 0)}>Accueil</Link></li>
-                    <li><Link to="/blog">Blog & Actu</Link></li>
-                    <li><Link to="/ecstasy" style={{ color: 'var(--color-neon-purple)', fontWeight: '700' }}>✦ Ecstasy AI</Link></li>
-                    <li><a href={getLink('#projects')}>Réalisations</a></li>
-                    <li><a href={getLink('#pricing')}>Tarifs</a></li>
-                    <li><a href={getLink('#process')}>Processus</a></li>
-                </ul>
-                <a href="/booking" className="btn-glow">Réserver un Call</a>
-                <ThemeToggle />
-            </div>
-        </nav>
+                    <div className="menu-icon" onClick={toggleMenu}>
+                        {isOpen ? <X color="#0F172A" size={28} /> : <Menu color="#0F172A" size={28} />}
+                    </div>
+
+                    <ul className={`nav-menu ${isOpen ? 'active' : ''}`}>
+                        <li className="nav-item">
+                            <Link to="/" className="nav-link" onClick={closeMenu}>Accueil</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link to="/formation" className="nav-link" onClick={closeMenu}>Formation</Link>
+                        </li>
+                        <li className="nav-item">
+                            <a href="/#pricing" className="nav-link" onClick={closeMenu}>Tarifs</a>
+                        </li>
+                        <li className="nav-item">
+                            <a href="/#projects" className="nav-link" onClick={closeMenu}>Réalisations</a>
+                        </li>
+                        <li className="nav-item">
+                            <Link to="/blog" className="nav-link" onClick={closeMenu}>Blog</Link>
+                        </li>
+
+                        <li className="nav-item" style={{ width: isOpen ? '100%' : 'auto' }}>
+                            <button className="btn-booking"
+                                onClick={() => {
+                                    setIsCalendlyOpen(true);
+                                    closeMenu();
+                                }}
+                            >
+                                <Calendar size={18} /> Prendre RDV
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </>
     );
 };
 

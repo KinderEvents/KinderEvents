@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import Blog from './pages/Blog';
 import Booking from './pages/Booking';
 import Formation from './pages/Formation';
-import { EcstasyAI, BackgroundSound } from './components';
+import PaymentStatus from './pages/PaymentStatus';
 import './styles/global.css';
 
 // Component to handle scroll to top on route change
@@ -27,7 +27,6 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
-      <BackgroundSound />
       <div className="App">
         <Navbar />
         <Routes>
@@ -35,7 +34,8 @@ function App() {
           <Route path="/blog" element={<Blog />} />
           <Route path="/booking" element={<Booking />} />
           <Route path="/formation" element={<Formation />} />
-          <Route path="/ecstasy" element={<EcstasyAI />} />
+          <Route path="/payment/success" element={<PaymentStatus type="success" />} />
+          <Route path="/payment/cancel" element={<PaymentStatus type="cancel" />} />
         </Routes>
         <Footer />
       </div>

@@ -1,63 +1,81 @@
 :root {
-  /* Colors - Dark Mode */
-  --color-bg-dark: #050505;
-  --color-bg-card: #0a0a0a;
-  --color-neon-blue: #00f3ff;
-  --color-neon-purple: #bc00dd;
-  --color-text-primary: #ffffff;
-  --color-text-secondary: #a0a0a0;
-  --color-glass-border: rgba(255, 255, 255, 0.1);
-  --color-glass-bg: rgba(255, 255, 255, 0.05);
+  /* VisionR Prestige Theme - STRICT LIGHT MODE ONLY */
+  --color-bg-main: #F1F5F9;
+  /* Porcelain / Vapeur Grey */
+  --color-bg-card: #FFFFFF;
+  /* Pure White */
 
-  /* Gradients - Dark Mode */
-  --gradient-neon: linear-gradient(135deg, var(--color-neon-blue), var(--color-neon-purple));
-  --gradient-glass: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+  --color-text-primary: #0F172A;
+  /* Midnight Blue Profond */
+  --color-text-secondary: #475569;
+  /* Gris Ardoise */
+  --color-text-muted: #94A3B8;
+
+  --color-accent-blue: #2563EB;
+  /* Bleu Roi Vibrant */
+  --color-accent-dark: #1E40AF;
+  --color-accent-gold: #F59E0B;
+
+  --color-border: #E2E8F0;
+
+  /* Gradients */
+  --gradient-action: linear-gradient(135deg, #2563EB 0%, #4F46E5 100%);
+  --gradient-card: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
 
   /* Spacing */
   --spacing-container: 1200px;
   --spacing-section: 6rem;
-  --spacing-card: 2rem;
 
   /* Typography */
-  --font-main: 'Outfit', sans-serif;
-  --font-size-hero: 5rem;
-  --font-size-title: 3.5rem;
-  --font-size-subtitle: 1.5rem;
-  --font-size-body: 1rem;
+  --font-main: 'Inter', system-ui, sans-serif;
+  --font-heading: 'Plus Jakarta Sans', system-ui, sans-serif;
 
-  /* Transitions - Standardized timing */
-  --transition-fast: 0.2s ease;
-  --transition-normal: 0.3s ease;
-  --transition-slow: 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-
-  /* Shadows & Effects - Dark Mode */
-  --effect-text-glow: 0 0 10px rgba(0, 243, 255, 0.5);
-  --effect-box-glow: 0 0 20px rgba(0, 243, 255, 0.3);
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  /* High-end Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-card: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-float: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-glow: 0 0 15px rgba(37, 99, 235, 0.2);
 }
 
-[data-theme='light'] {
-  /* Colors - Light Mode */
-  --color-bg-dark: #ffffff;
-  --color-bg-card: #f3f4f6;
-  --color-text-primary: #111827;
-  --color-text-secondary: #4b5563;
-
-  --color-glass-border: rgba(0, 0, 0, 0.1);
-  --color-glass-bg: rgba(255, 255, 255, 0.9);
-  --gradient-glass: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(243, 244, 246, 0.9) 100%);
-
-  /* Light Mode Accents */
-  --color-neon-blue: #2563eb;
-  --color-neon-purple: #7c3aed;
-
-  /* Shadows & Effects - Light Mode */
-  --effect-text-glow: none;
-  --effect-box-glow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
-  --gradient-neon: linear-gradient(135deg, #2563eb, #7c3aed);
+/* Force Body Styles Globally */
+body {
+  background-color: var(--color-bg-main) !important;
+  color: var(--color-text-primary) !important;
+  font-family: var(--font-main);
+  -webkit-font-smoothing: antialiased;
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  color: var(--color-text-primary) !important;
+  font-weight: 700;
+}
+
+/* Prestige Utilities - Forced Light */
+.glass-panel {
+  background: var(--color-bg-card);
+  box-shadow: var(--shadow-card);
+  border-radius: 1rem;
+  border: 1px solid var(--color-border);
+}
+
+.btn-primary {
+  background: var(--gradient-action);
+  color: white !important;
+  /* Buttons kept white on blue */
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3);
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.4);
+}
+
+/* NO DARK MODE OVERRIDES ALLOWED */

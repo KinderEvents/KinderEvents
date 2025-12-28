@@ -1,0 +1,461 @@
+/* BentoPricing.css */
+
+.pricing-section {
+    padding: var(--spacing-section) 1rem;
+    background: #F8FAFC;
+}
+
+.container {
+    max-width: var(--spacing-container);
+    margin: 0 auto;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-header h2 {
+    font-size: 3rem;
+    color: var(--color-text-primary);
+    margin-bottom: 1rem;
+}
+
+.section-header p {
+    color: var(--color-text-secondary);
+    font-size: 1.2rem;
+}
+
+.category-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--color-text-primary);
+}
+
+.inline-icon {
+    color: var(--color-accent-blue);
+}
+
+/* Bento Grid */
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.bento-card {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.bento-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--color-accent-blue);
+}
+
+.bento-card.featured {
+    border: 2px solid var(--color-accent-blue);
+    background: linear-gradient(180deg, #ffffff 0%, #eff6ff 100%);
+}
+
+.badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-accent-blue);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.card-top {
+    margin-bottom: 1.5rem;
+}
+
+.card-top h4 {
+    font-size: 1.5rem;
+    margin: 0 0 0.5rem 0;
+}
+
+.price {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+.currency {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--color-text-secondary);
+}
+
+.description {
+    color: var(--color-text-secondary);
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.feature-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+    color: var(--color-text-primary);
+}
+
+.feature-list li svg {
+    color: var(--color-accent-blue);
+}
+
+/* Span Row Card (Mobile App) */
+.span-row {
+    grid-column: 1 / -1;
+    background: #1E293B !important;
+    /* Forces dark bg */
+    color: white;
+}
+
+.span-row h4,
+.span-row p,
+.span-row li,
+.span-row .price-s {
+    color: white !important;
+}
+
+.card-content-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+}
+
+.price-tag {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.price-s {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+/* Accelerator Card */
+.accelerator-card {
+    background: radial-gradient(circle at top right, #fffbeb, #ffffff);
+    border: 1px solid #fcd34d;
+    border-radius: 24px;
+    padding: 3rem;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 3rem;
+    margin-top: 2rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 40px -10px rgba(245, 158, 11, 0.1);
+}
+
+.acc-badge {
+    color: #b45309;
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.accelerator-card h3 {
+    font-size: 2.5rem;
+    margin: 0 0 1rem 0;
+    background: linear-gradient(135deg, #b45309 0%, #f59e0b 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.acc-desc {
+    font-size: 1.1rem;
+    color: #4b5563;
+    margin-bottom: 2rem;
+    max-width: 500px;
+}
+
+.acc-price {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1E293B;
+    margin-bottom: 2rem;
+}
+
+.gold-btn {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(245, 158, 11, 0.3);
+    transition: transform 0.2s;
+}
+
+.gold-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* Graph Placeholder */
+.stat-box {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.graph-placeholder {
+    height: 150px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e2e8f0;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.bar {
+    width: 30px;
+    background: #10b981;
+    border-radius: 4px 4px 0 0;
+}
+
+.bar-1 {
+    height: 40%;
+    opacity: 0.5;
+}
+
+.bar-2 {
+    height: 70%;
+    opacity: 0.7;
+}
+
+.bar-3 {
+    height: 100%;
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+}
+
+.trend-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border-top: 2px dashed #10b981;
+    transform: rotate(-15deg) translateY(60px);
+    opacity: 0.3;
+}
+
+.stat-box p {
+    font-weight: 700;
+    color: #10b981;
+    font-size: 1.2rem;
+}
+
+@media (max-width: 900px) {
+    .accelerator-card {
+        grid-template-columns: 1fr;
+    }
+
+    .card-content-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* New Responsive Pricing Styles */
+.pricing-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 4rem;
+    flex-wrap: wrap;
+    /* CRITICAL for mobile */
+    padding: 0 1rem;
+}
+
+.pricing-tab-btn {
+    padding: 12px 30px;
+    border-radius: 50px;
+    border: none;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    background: white;
+    color: var(--color-text-secondary);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.pricing-tab-btn.active {
+    background: var(--color-accent-blue);
+    color: white;
+    box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.4);
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    width: 100%;
+}
+
+@media (max-width: 640px) {
+    .pricing-section {
+        padding: 3rem 1rem;
+    }
+
+    .section-header h2 {
+        font-size: 2rem;
+    }
+
+    .section-header p {
+        font-size: 1rem;
+    }
+
+    .category-title {
+        font-size: 1.3rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .pricing-tabs {
+        gap: 0.5rem;
+    }
+
+    .pricing-tab-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        flex: 1;
+        /* Make them grow to fill row if wrapped */
+        min-width: 100px;
+    }
+
+    .pricing-grid {
+        grid-template-columns: 1fr;
+        /* Single column on very small screens */
+    }
+
+    .bento-card {
+        padding: 1.5rem;
+    }
+
+    .card-top h4 {
+        font-size: 1.3rem;
+    }
+
+    .price {
+        font-size: 1.75rem;
+    }
+
+    .description {
+        font-size: 0.9rem;
+    }
+
+    .feature-list li {
+        font-size: 0.9rem;
+    }
+
+    .glass-panel {
+        padding: 1.5rem !important;
+    }
+
+    .accelerator-card {
+        padding: 2rem;
+    }
+
+    .accelerator-card h3 {
+        font-size: 2rem;
+    }
+
+    .acc-desc {
+        font-size: 1rem;
+    }
+
+    .acc-price {
+        font-size: 1.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .pricing-section {
+        padding: 2.5rem 0.75rem;
+    }
+
+    .section-header {
+        margin-bottom: 3rem;
+    }
+
+    .section-header h2 {
+        font-size: 1.75rem;
+    }
+
+    .section-header p {
+        font-size: 0.95rem;
+    }
+
+    .bento-card {
+        padding: 1.25rem;
+    }
+
+    .card-top h4 {
+        font-size: 1.2rem;
+    }
+
+    .price {
+        font-size: 1.5rem;
+    }
+
+    .accelerator-card {
+        padding: 1.5rem;
+    }
+
+    .accelerator-card h3 {
+        font-size: 1.75rem;
+    }
+
+    .acc-desc {
+        font-size: 0.95rem;
+    }
+
+    .gold-btn {
+        padding: 0.875rem 1.75rem;
+        font-size: 0.95rem;
+    }
+}
