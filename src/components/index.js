@@ -31,3 +31,5 @@ export { default as ConversionGame } from './ConversionGame';
 export { default as ViralLoop } from './ViralLoop';
 export { default as NewsletterSignup } from './NewsletterSignup';
 export { default as PaymentButton } from './PaymentButton';
+export { default as FormationInscriptionForm } from './FormationInscriptionForm';
+export { default as AdminRegistrations } from './AdminRegistrations';

@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Blog from './pages/Blog';
 import Booking from './pages/Booking';
 import Formation from './pages/Formation';
+import Admin from './pages/Admin';
 import PaymentStatus from './pages/PaymentStatus';
 import './styles/global.css';
 
@@ -34,6 +35,7 @@ function App() {
           <Route path="/blog" element={<Blog />} />
           <Route path="/booking" element={<Booking />} />
           <Route path="/formation" element={<Formation />} />
+          <Route path="/admin" element={<Admin />} />
           <Route path="/payment/success" element={<PaymentStatus type="success" />} />
           <Route path="/payment/cancel" element={<PaymentStatus type="cancel" />} />
         </Routes>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Eye, Clock, HelpCircle, Lock, CheckCircle, ArrowRight, Star, ShieldCheck, Check, Zap, Search, Rocket, Timer, Video } from 'lucide-react';
-import RegistrationModal from './RegistrationModal';
+import FormationInscriptionForm from './FormationInscriptionForm';
 import ViralLoop from './ViralLoop';
 import NewsletterSignup from './NewsletterSignup';
 import '../styles/TrainingLanding.css';
@@ -10,10 +10,8 @@ import '../styles/TrainingLanding.css';
 
 const TrainingLanding = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedPack, setSelectedPack] = useState('Formation Avancée - 10000 FCFA');
 
-    const openBooking = (pack) => {
-        setSelectedPack(pack);
+    const openBooking = () => {
         setIsModalOpen(true);
     };
 
@@ -24,7 +22,40 @@ const TrainingLanding = () => {
 
     return (
         <div className="training-page">
-            <RegistrationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} selectedPack={selectedPack} />
+            {/* Modal for FormationInscriptionForm */}
+            {isModalOpen && (
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        background: 'rgba(0,0,0,0.5)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        zIndex: 1000,
+                        padding: '1rem'
+                    }}
+                    onClick={() => setIsModalOpen(false)}
+                >
+                    <div
+                        style={{
+                            background: 'white',
+                            borderRadius: '16px',
+                            padding: '2rem',
+                            maxWidth: '600px',
+                            width: '100%',
+                            maxHeight: '90vh',
+                            overflow: 'auto'
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <FormationInscriptionForm onClose={() => setIsModalOpen(false)} />
+                    </div>
+                </div>
+            )}
 
             {/* 1. HERO SECTION */}
             <section className="t-container t-hero">
@@ -37,7 +68,7 @@ const TrainingLanding = () => {
                     <p>
                         Apprends à utiliser les outils des pros (Meta, Canva, IA) pour vendre plus et te démarquer, même avec 0 budget.
                     </p>
-                    <button onClick={() => openBooking('Formation Initiale - 5000 FCFA')} className="t-btn-primary">
+                    <button onClick={() => openBooking()} className="t-btn-primary">
                         Réserver ma place (Dès 5 000 FCFA) <ArrowRight size={20} />
                     </button>
 
@@ -185,7 +216,7 @@ const TrainingLanding = () => {
                             <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><Check size={18} color="#16A34A" /> Support Groupe WhatsApp</li>
                         </ul>
 
-                        <button onClick={() => openBooking('Formation Initiale - 5000 FCFA')} className="t-btn-outline">
+                        <button onClick={() => openBooking()} className="t-btn-outline">
                             Je commence (5k)
                         </button>
                     </div>
@@ -205,7 +236,7 @@ const TrainingLanding = () => {
                             <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><Rocket size={18} color="#9333EA" /> <strong>Priorité aux Questions</strong></li>
                         </ul>
 
-                        <button onClick={() => openBooking('Formation Avancée - 10000 FCFA')} className="t-btn-grad">
+                        <button onClick={() => openBooking()} className="t-btn-grad">
                             Je veux des résultats (10k)
                         </button>
                     </div>
@@ -264,7 +295,7 @@ const TrainingLanding = () => {
                     <div style={{ fontSize: '0.9rem', color: '#0F172A' }}>Prochaine session bientôt</div>
                 </div>
                 <button
-                    onClick={() => openBooking('Formation Avancée - 10000 FCFA')}
+                    onClick={() => openBooking()}
                     style={{ background: '#2563EB', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '8px', fontWeight: '700' }}
                 >
                     Réserver
