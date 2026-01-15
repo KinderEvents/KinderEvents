@@ -181,9 +181,9 @@ export default async function handler(req, res) {
  */
 function generateConfirmationEmail(name, formationName, whatsapp, id = 0) {
     const formattedId = id.toString().padStart(6, '0');
-    // Using a public QR code API for the visual effect
-    const qrData = `MEMBER-VISIONR-${formattedId}`;
-    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrData}&color=D4AF37&bgcolor=0F172A`;
+    // QR Code links to the verification page
+    const verifyUrl = `https://visionr-studio-git-master-ecstasys-projects-90a34c79.vercel.app/verify/${id}`;
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(verifyUrl)}&color=D4AF37&bgcolor=0F172A`;
 
     return `
         <!DOCTYPE html>
