@@ -78,8 +78,7 @@ export default async function handler(req, res) {
 
         // Prepare update data
         const updateData = {
-            status: new_status,
-            updated_at: new Date()
+            status: new_status
         };
 
         // Add payment proof URL if provided
