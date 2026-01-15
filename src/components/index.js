@@ -24,12 +24,12 @@ export { default as SidePilot } from './SidePilot';
 export { default as BentoPricing } from './BentoPricing';
 export { default as CalendlyModal } from './CalendlyModal';
 export { default as Founder } from './Founder';
-export { default as RegistrationModal } from './RegistrationModal';
+
 export { default as ScrollReveal } from './ScrollReveal';
 export { default as TrainingLanding } from './TrainingLanding';
 export { default as ConversionGame } from './ConversionGame';
 export { default as ViralLoop } from './ViralLoop';
 export { default as NewsletterSignup } from './NewsletterSignup';
-export { default as PaymentButton } from './PaymentButton';
+
 export { default as FormationInscriptionForm } from './FormationInscriptionForm';
 export { default as AdminRegistrations } from './AdminRegistrations';
