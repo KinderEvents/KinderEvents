@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import nodemailer from 'nodemailer';
+import PDFDocument from 'pdfkit';
 
 // Initialize Supabase
 const supabase = createClient(
@@ -99,7 +100,6 @@ export default async function handler(req, res) {
         }
 
         // Update registration
-        // We catch the error specifically for missing column to not crash everything if migration isn't run
         let data, error;
         try {
             const result = await supabase
@@ -111,14 +111,11 @@ export default async function handler(req, res) {
             error = result.error;
         } catch (err) {
             console.error('Database Update Exception:', err);
-            // If update fails (e.g. column missing), allow fallback? 
-            // No, Supabase usually handles this via `error`.
         }
 
         if (error) {
             console.warn('Initial update failed:', error.message);
-            // If error might be about missing column 'payment_method', try updating without it
-            // We retry blindly if payment_method was in the updateData to ensure we don't block confirmation
+            // Retry logic for missing column
             if (updateData.payment_method) {
                 console.warn('Retrying update without payment_method column...');
                 delete updateData.payment_method;
@@ -142,6 +139,9 @@ export default async function handler(req, res) {
         // Send confirmation email if inscription confirmed
         if (new_status === 'inscription_confirmee' && currentReg.email) {
             try {
+                // Generate PDF Buffer
+                const pdfBuffer = await generateTicketPDF(currentReg);
+
                 await transporter.sendMail({
                     from: `"VisionR Formations" <${EMAIL_USER}>`,
                     to: currentReg.email,
@@ -150,11 +150,18 @@ export default async function handler(req, res) {
                         currentReg.full_name,
                         currentReg.formation_type,
                         currentReg.whatsapp,
-                        currentReg.id // Add ID for the badge
-                    )
+                        currentReg.id
+                    ),
+                    attachments: [
+                        {
+                            filename: `VisionR-Ticket-${currentReg.id}.pdf`,
+                            content: pdfBuffer,
+                            contentType: 'application/pdf'
+                        }
+                    ]
                 });
 
-                console.log('✅ Email de confirmation envoyé à:', currentReg.email);
+                console.log('✅ Email de confirmation envoyé avec PDF à:', currentReg.email);
             } catch (emailErr) {
                 console.error('⚠️ Erreur envoi email (non bloquant):', emailErr);
             }
@@ -177,17 +184,96 @@ export default async function handler(req, res) {
 }
 
 /**
+ * Generate PDF Service using PDFKit
+ */
+async function generateTicketPDF(registration) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const doc = new PDFDocument({ size: 'A5', margin: 0 });
+            const buffers = [];
+
+            doc.on('data', buffers.push.bind(buffers));
+            doc.on('end', () => resolve(Buffer.concat(buffers)));
+
+            // Colors
+            const darkBlue = '#0F172A';
+            const lighterBlue = '#1E293B';
+            const gold = '#D4AF37';
+            const white = '#F1F5F9';
+            const slate = '#94A3B8';
+
+            // Background
+            doc.rect(0, 0, doc.page.width, doc.page.height).fill(darkBlue);
+
+            // Card Container
+            doc.roundedRect(20, 40, doc.page.width - 40, doc.page.height - 80, 10).fill(lighterBlue);
+
+            // Decorative Border
+            doc.lineWidth(2).strokeColor(gold).opacity(0.3)
+                .roundedRect(25, 45, doc.page.width - 50, doc.page.height - 90, 8).stroke().opacity(1);
+
+            // Header
+            doc.fontSize(24).fillColor(gold).font('Helvetica-Bold')
+                .text('VISIONR EVENT', 0, 70, { align: 'center' });
+
+            doc.fontSize(10).fillColor(slate).font('Helvetica')
+                .text('BILLET OFFICIEL DE FORMATION', 0, 100, { align: 'center' });
+
+            // Fetch and Embed QR Code
+            try {
+                const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://visionr-studio.vercel.app/verify/${registration.id}&color=000000&bgcolor=FFFFFF&margin=2`;
+                const qrResponse = await fetch(qrUrl);
+                const qrArrayBuffer = await qrResponse.arrayBuffer();
+                const qrBuffer = Buffer.from(qrArrayBuffer);
+
+                // Embed QR Image
+                doc.image(qrBuffer, (doc.page.width - 100) / 2, 130, { width: 100 });
+            } catch (err) {
+                console.error("Failed to fetch QR for PDF:", err);
+            }
+
+            // Status Badge
+            doc.rect((doc.page.width - 100) / 2, 240, 100, 25).fill('#064E3B');
+            doc.fontSize(12).fillColor('#34D399').font('Helvetica-Bold')
+                .text('CONFIRMÉ', 0, 247, { align: 'center' });
+
+            // Details
+            const startY = 290;
+            const leftX = 40;
+
+            doc.fontSize(9).fillColor(slate).text('PARTICIPANT', leftX, startY);
+            doc.fontSize(16).fillColor(white).font('Helvetica-Bold').text(registration.full_name, leftX, startY + 15);
+
+            doc.fontSize(9).fillColor(slate).font('Helvetica').text('FORMATION', leftX, startY + 50);
+            doc.fontSize(14).fillColor(gold).font('Helvetica-Bold').text(registration.formation_type, leftX, startY + 65, { width: doc.page.width - 80 });
+
+            // Footer
+            doc.moveTo(40, 450).lineTo(doc.page.width - 40, 450).strokeColor(slate).lineWidth(1).stroke();
+
+            doc.fontSize(9).fillColor(slate).font('Helvetica')
+                .text(`Date Validation: ${new Date(registration.confirmed_at || new Date()).toLocaleDateString()}`, leftX, 465);
+
+            doc.text(`ID Ticket: #${registration.id.toString().padStart(6, '0')}`, leftX, 465, { align: 'right', width: doc.page.width - 80 });
+
+            doc.end();
+
+        } catch (err) {
+            reject(err);
+        }
+    });
+}
+
+/**
  * Generate Confirmation Email Template
  */
 function generateConfirmationEmail(name, formationName, whatsapp, id = 0) {
     const formattedId = id.toString().padStart(6, '0');
     // QR Code links to the verification page
-    // Using the public production domain to avoid Vercel Auth issues on preview URLs
     const baseUrl = 'https://visionr-studio.vercel.app';
     const verifyUrl = `${baseUrl}/verify/${id}`;
 
     // Valid for direct download link (triggers auto download on page load)
-    const downloadUrl = `${verifyUrl}?auto_down=true`;
+    const downloadUrl = `${verifyUrl}`;
 
     const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(verifyUrl)}&color=D4AF37&bgcolor=0F172A`;
 
@@ -278,6 +364,7 @@ function generateConfirmationEmail(name, formationName, whatsapp, id = 0) {
                     font-weight: 600;
                     margin-bottom: 20px;
                     text-transform: uppercase;
+                    font-weight: bold;
                 }
                 
                 .qr-section {
@@ -335,49 +422,6 @@ function generateConfirmationEmail(name, formationName, whatsapp, id = 0) {
                     font-size: 14px;
                     margin-bottom: 30px;
                 }
-
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <h1 class="h1-email">C'est officiel, ${name} !</h1>
-                <p class="p-email">Votre place est réservée. Voici votre ticket d'accès.</p>
-                
-                <div class="ticket-wrap">
-                    <div class="ticket">
-                        <div class="ticket-header">
-                            <div class="brand">VisionR Event</div>
-                            <h2 class="event-title">${formationName}</h2>
-                        </div>
-                        
-                        <div class="ticket-body">
-                            <div class="attendee-info">
-                                <div class="label">Participant</div>
-                                <div class="value">${name}</div>
-                                
-                                <div class="label">ID Unique</div>
-                                <div class="value" style="color: #D4AF37; font-family: monospace;">#${formattedId}</div>
-                                
-                                <div class="label">Statut</div>
-                                <div class="value" style="color: #10B981; margin-bottom: 0;">Confirmé ✓</div>
-                            </div>
-                            
-                            <div class="qr-section">
-                                <img src="${qrUrl}" class="qr-img" alt="QR Code">
-                            </div>
-                        </div>
-                        
-                        <div class="ticket-footer">
-                            CE TICKET EST VOTRE PASS D'ENTRÉE OFFICIEL
-                        </div>
-                    </div>
-                </div>
-                
-                <a href="${downloadUrl}" class="download-btn">📲 Télécharger le Ticket</a>
-                
-                <p class="p-email" style="font-size: 12px; margin-top: 20px;">
-                    Gardez ce ticket précieusement. En cas de besoin, contactez-nous sur WhatsApp : <strong>${whatsapp}</strong>
-                </p>
                 
                  <div style="text-align: center; padding: 20px; color: #475569; font-size: 12px;">
                     © ${new Date().getFullYear()} VisionR AI Agency
