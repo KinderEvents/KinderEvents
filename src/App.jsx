@@ -4,10 +4,11 @@ import { Navbar, Footer } from './components';
 import Home from './pages/Home';
 import Blog from './pages/Blog';
 import Booking from './pages/Booking';
-import Formation from './pages/Formation';
 import Admin from './pages/Admin';
 import PaymentStatus from './pages/PaymentStatus';
 import TicketVerify from './pages/TicketVerify';
+import Login from './pages/Login';
+import ProtectedRoute from './components/ProtectedRoute';
 import './styles/global.css';
 
 // Component to handle scroll to top on route change
@@ -36,7 +37,12 @@ function App() {
           <Route path="/blog" element={<Blog />} />
           <Route path="/booking" element={<Booking />} />
           <Route path="/formation" element={<Formation />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/admin" element={
+            <ProtectedRoute>
+              <Admin />
+            </ProtectedRoute>
+          } />
           <Route path="/payment/success" element={<PaymentStatus type="success" />} />
           <Route path="/payment/cancel" element={<PaymentStatus type="cancel" />} />
           <Route path="/verify/:id" element={<TicketVerify />} />
