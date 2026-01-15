@@ -78,7 +78,8 @@ export default async function handler(req, res) {
 
         // Prepare update data
         const updateData = {
-            status: new_status
+            status: new_status,
+            updated_at: new Date()
         };
 
         // Add payment proof URL if provided
@@ -180,121 +181,200 @@ export default async function handler(req, res) {
  */
 function generateConfirmationEmail(name, formationName, whatsapp, id = 0) {
     const formattedId = id.toString().padStart(6, '0');
+    // Using a public QR code API for the visual effect
+    const qrData = `MEMBER-VISIONR-${formattedId}`;
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrData}&color=D4AF37&bgcolor=0F172A`;
 
     return `
         <!DOCTYPE html>
         <html>
         <head>
             <style>
-                body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #F8FAFC; margin: 0; padding: 0; }
-                .container { max-width: 600px; margin: 40px auto; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.05); }
-                .header { background-color: #0F172A; padding: 40px 20px; text-align: center; }
-                .logo-text { color: #ffffff; font-size: 24px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; }
-                .logo-accent { color: #F59E0B; }
-                .content { padding: 40px 30px; color: #334155; line-height: 1.6; }
-                .h1 { color: #0F172A; font-size: 24px; font-weight: 800; margin-top: 0; margin-bottom: 10px; text-align: center; }
-                .subtitle { text-align: center; color: #64748B; margin-bottom: 30px; }
+                body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #0F172A; margin: 0; padding: 0; }
+                .container { max-width: 600px; margin: 20px auto; background-color: #0F172A; }
                 
-                /* BADGE DESIGN */
-                .badge-container {
-                    background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
-                    border: 2px solid #D4AF37;
+                /* TICKET STYLES */
+                .ticket-wrap {
+                    padding: 20px;
+                    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+                }
+                .ticket {
+                    background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
                     border-radius: 12px;
-                    padding: 2px;
-                    margin: 30px 0;
+                    overflow: hidden;
                     position: relative;
-                    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-                }
-                .badge-inner {
-                    background: #0F172A;
-                    border: 1px dashed #475569;
-                    border-radius: 10px;
-                    padding: 25px;
-                    text-align: center;
-                    color: white;
-                    background-image: radial-gradient(#334155 1px, transparent 1px);
-                    background-size: 20px 20px;
-                }
-                .badge-header {
-                    color: #D4AF37;
-                    font-size: 12px;
-                    letter-spacing: 3px;
-                    text-transform: uppercase;
-                    margin-bottom: 15px;
-                    font-weight: 700;
-                }
-                .badge-name {
-                    font-size: 28px;
-                    font-weight: 800;
-                    background: linear-gradient(to right, #F59E0B, #D4AF37, #F59E0B);
-                    -webkit-background-clip: text;
-                    -webkit-text-fill-color: transparent;
-                    background-clip: text;
-                    color: #D4AF37;
-                    margin: 10px 0;
-                    text-transform: uppercase;
-                }
-                .badge-formation {
-                    font-size: 16px;
-                    color: #94A3B8;
-                    margin-bottom: 20px;
-                }
-                .badge-footer {
-                    border-top: 1px solid #334155;
-                    padding-top: 15px;
+                    border: 1px solid #334155;
                     display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    font-size: 10px;
-                    color: #64748B;
-                }
-                .verified-icon {
-                    color: #10B981;
-                    font-size: 14px;
-                    margin-right: 5px;
+                    flex-direction: column;
                 }
                 
-                .button { display: inline-block; background: #0F172A; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 50px; font-weight: 600; margin-top: 20px; }
-                .footer { background-color: #F1F5F9; padding: 20px; text-align: center; color: #94A3B8; font-size: 12px; }
+                /* Decorative Gold Border */
+                .ticket::before {
+                    content: '';
+                    position: absolute;
+                    top: 4px; left: 4px; right: 4px; bottom: 4px;
+                    border: 2px solid #D4AF37;
+                    border-radius: 8px;
+                    pointer-events: none;
+                    opacity: 0.5;
+                }
+                
+                .ticket-header {
+                    padding: 20px;
+                    border-bottom: 2px dashed #334155;
+                    position: relative;
+                    text-align: center;
+                    background: radial-gradient(circle at top left, #D4AF37 0%, transparent 10%),
+                                radial-gradient(circle at top right, #D4AF37 0%, transparent 10%);
+                }
+                
+                .brand {
+                    color: #D4AF37;
+                    font-size: 14px;
+                    letter-spacing: 4px;
+                    text-transform: uppercase;
+                    font-weight: bold;
+                    margin-bottom: 10px;
+                }
+                
+                .event-title {
+                    color: #F8FAFC;
+                    font-size: 24px;
+                    font-weight: 800;
+                    margin: 0;
+                    text-transform: uppercase;
+                    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+                }
+                
+                .ticket-body {
+                    padding: 30px 20px;
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                }
+                
+                .attendee-info {
+                    flex: 1;
+                }
+                
+                .label {
+                    color: #64748B;
+                    font-size: 10px;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                    margin-bottom: 4px;
+                }
+                
+                .value {
+                    color: #F1F5F9;
+                    font-size: 18px;
+                    font-weight: 600;
+                    margin-bottom: 20px;
+                    text-transform: uppercase;
+                }
+                
+                .qr-section {
+                    width: 100px;
+                    text-align: center;
+                    border-left: 2px dashed #334155;
+                    padding-left: 20px;
+                    margin-left: 20px;
+                }
+                
+                .qr-img {
+                    width: 80px;
+                    height: 80px;
+                    background: #1E293B;
+                    border: 2px solid #D4AF37;
+                    border-radius: 8px;
+                    padding: 5px;
+                }
+                
+                .ticket-footer {
+                    background: #020617;
+                    padding: 15px;
+                    text-align: center;
+                    color: #94A3B8;
+                    font-size: 10px;
+                    letter-spacing: 1px;
+                    border-top: 2px dashed #334155;
+                }
+                
+                .download-btn {
+                    display: block;
+                    width: 200px;
+                    margin: 30px auto;
+                    background: #D4AF37;
+                    color: #0F172A;
+                    text-align: center;
+                    padding: 15px;
+                    border-radius: 50px;
+                    text-decoration: none;
+                    font-weight: 800;
+                    text-transform: uppercase;
+                    font-size: 14px;
+                    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+                }
+                
+                .h1-email {
+                    color: #F1F5F9;
+                    text-align: center;
+                    margin-top: 30px;
+                    font-size: 20px;
+                }
+                .p-email {
+                    color: #94A3B8;
+                    text-align: center;
+                    font-size: 14px;
+                    margin-bottom: 30px;
+                }
+
             </style>
         </head>
         <body>
             <div class="container">
-                <div class="header">
-                    <div class="logo-text">Vision<span class="logo-accent">R</span></div>
-                </div>
-                <div class="content">
-                    <h1 class="h1">FÉLICITATIONS !</h1>
-                    <p class="subtitle">Votre inscription est officiellement confirmée.</p>
-                    
-                    <p>Bonjour <strong>${name}</strong>,</p>
-                    <p>Nous avons bien reçu votre paiement. Vous faites désormais partie de l'élite VisionR.</p>
-                    <p>Voici votre badge d'accès officiel :</p>
-                    
-                    <!-- OFFICIAL BADGE -->
-                    <div class="badge-container">
-                        <div class="badge-inner">
-                            <div class="badge-header">★ MEMBRE OFFICIEL ★</div>
-                            <div class="badge-name">${name}</div>
-                            <div class="badge-formation">${formationName || 'Formation IA'}</div>
+                <h1 class="h1-email">C'est officiel, ${name} !</h1>
+                <p class="p-email">Votre place est réservée. Voici votre ticket d'accès.</p>
+                
+                <div class="ticket-wrap">
+                    <div class="ticket">
+                        <div class="ticket-header">
+                            <div class="brand">VisionR Event</div>
+                            <h2 class="event-title">${formationName}</h2>
+                        </div>
+                        
+                        <div class="ticket-body">
+                            <div class="attendee-info">
+                                <div class="label">Participant</div>
+                                <div class="value">${name}</div>
+                                
+                                <div class="label">ID Unique</div>
+                                <div class="value" style="color: #D4AF37; font-family: monospace;">#${formattedId}</div>
+                                
+                                <div class="label">Statut</div>
+                                <div class="value" style="color: #10B981; margin-bottom: 0;">Confirmé ✓</div>
+                            </div>
                             
-                            <div class="badge-footer">
-                                <div>ID: #${formattedId}</div>
-                                <div><span class="verified-icon">✓</span> PAIEMENT VALIDÉ</div>
+                            <div class="qr-section">
+                                <img src="${qrUrl}" class="qr-img" alt="QR Code">
                             </div>
                         </div>
+                        
+                        <div class="ticket-footer">
+                            CE TICKET EST VOTRE PASS D'ENTRÉE OFFICIEL
+                        </div>
                     </div>
-                    
-                    <p style="text-align: center; margin-top: 30px;">
-                        Notre équipe vous contactera très prochainement sur WhatsApp au <strong>${whatsapp}</strong> pour vous transmettre vos accès.
-                    </p>
-                    
-                    <center>
-                        <a href="https://visionr-studio-git-master-ecstasys-projects-90a34c79.vercel.app" class="button">Accéder au site</a>
-                    </center>
                 </div>
-                <div class="footer">
-                    &copy; ${new Date().getFullYear()} VisionR AI Agency. Tous droits réservés.
+                
+                <a href="#" class="download-btn">📲 Télécharger le Ticket</a>
+                
+                <p class="p-email" style="font-size: 12px; margin-top: 20px;">
+                    Gardez ce ticket précieusement. En cas de besoin, contactez-nous sur WhatsApp : <strong>${whatsapp}</strong>
+                </p>
+                
+                 <div style="text-align: center; padding: 20px; color: #475569; font-size: 12px;">
+                    © ${new Date().getFullYear()} VisionR AI Agency
                 </div>
             </div>
         </body>
