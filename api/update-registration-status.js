@@ -116,9 +116,11 @@ export default async function handler(req, res) {
         }
 
         if (error) {
-            // If error is about missing column 'payment_method', try updating without it
-            if (error.message && error.message.includes('payment_method')) {
-                console.warn('Column payment_method missing, retrying without it...');
+            console.warn('Initial update failed:', error.message);
+            // If error might be about missing column 'payment_method', try updating without it
+            // We retry blindly if payment_method was in the updateData to ensure we don't block confirmation
+            if (updateData.payment_method) {
+                console.warn('Retrying update without payment_method column...');
                 delete updateData.payment_method;
                 const retry = await supabase
                     .from('registrations')
@@ -168,7 +170,8 @@ export default async function handler(req, res) {
         console.error('❌ Update Status API Error:', error);
         return res.status(500).json({
             error: 'Erreur serveur',
-            message: 'Une erreur est survenue lors de la mise à jour'
+            message: error.message || 'Une erreur est survenue lors de la mise à jour',
+            details: error
         });
     }
 }
