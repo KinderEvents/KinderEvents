@@ -1,0 +1,2 @@
+ALTER TABLE registrations 
+ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP DEFAULT NOW();
