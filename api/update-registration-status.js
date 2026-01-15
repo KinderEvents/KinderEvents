@@ -263,168 +263,88 @@ async function generateTicketPDF(registration) {
     });
 }
 
-/**
- * Generate Confirmation Email Template
- */
 function generateConfirmationEmail(name, formationName, whatsapp, id = 0) {
     const formattedId = id.toString().padStart(6, '0');
-    // QR Code links to the verification page
+    // Using the public production domain
     const baseUrl = 'https://visionr-studio.vercel.app';
     const verifyUrl = `${baseUrl}/verify/${id}`;
-
-    // Valid for direct download link (triggers auto download on page load)
-    const downloadUrl = `${verifyUrl}`;
-
-    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(verifyUrl)}&color=D4AF37&bgcolor=0F172A`;
+    const year = new Date().getFullYear();
 
     return `
         <!DOCTYPE html>
         <html>
         <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <style>
-                body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #0F172A; margin: 0; padding: 0; }
-                .container { max-width: 600px; margin: 20px auto; background-color: #0F172A; }
-                
-                /* TICKET STYLES */
-                .ticket-wrap {
-                    padding: 20px;
-                    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
-                }
-                .ticket {
-                    background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
-                    border-radius: 12px;
-                    overflow: hidden;
-                    position: relative;
-                    border: 1px solid #334155;
-                    display: flex;
-                    flex-direction: column;
-                }
-                
-                /* Decorative Gold Border */
-                .ticket::before {
-                    content: '';
-                    position: absolute;
-                    top: 4px; left: 4px; right: 4px; bottom: 4px;
-                    border: 2px solid #D4AF37;
-                    border-radius: 8px;
-                    pointer-events: none;
-                    opacity: 0.5;
-                }
-                
-                .ticket-header {
-                    padding: 20px;
-                    border-bottom: 2px dashed #334155;
-                    position: relative;
-                    text-align: center;
-                    background: radial-gradient(circle at top left, #D4AF37 0%, transparent 10%),
-                                radial-gradient(circle at top right, #D4AF37 0%, transparent 10%);
-                }
-                
-                .brand {
-                    color: #D4AF37;
-                    font-size: 14px;
-                    letter-spacing: 4px;
-                    text-transform: uppercase;
-                    font-weight: bold;
-                    margin-bottom: 10px;
-                }
-                
-                .event-title {
-                    color: #F8FAFC;
-                    font-size: 24px;
-                    font-weight: 800;
-                    margin: 0;
-                    text-transform: uppercase;
-                    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-                }
-                
-                .ticket-body {
-                    padding: 30px 20px;
-                    position: relative;
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                }
-                
-                .attendee-info {
-                    flex: 1;
-                }
-                
-                .label {
-                    color: #64748B;
-                    font-size: 10px;
-                    text-transform: uppercase;
-                    letter-spacing: 1px;
-                    margin-bottom: 4px;
-                }
-                
-                .value {
-                    color: #F1F5F9;
-                    font-size: 18px;
-                    font-weight: 600;
-                    margin-bottom: 20px;
-                    text-transform: uppercase;
-                    font-weight: bold;
-                }
-                
-                .qr-section {
-                    width: 100px;
-                    text-align: center;
-                    border-left: 2px dashed #334155;
-                    padding-left: 20px;
-                    margin-left: 20px;
-                }
-                
-                .qr-img {
-                    width: 80px;
-                    height: 80px;
-                    background: #1E293B;
-                    border: 2px solid #D4AF37;
-                    border-radius: 8px;
-                    padding: 5px;
-                }
-                
-                .ticket-footer {
-                    background: #020617;
-                    padding: 15px;
-                    text-align: center;
-                    color: #94A3B8;
-                    font-size: 10px;
-                    letter-spacing: 1px;
-                    border-top: 2px dashed #334155;
-                }
-                
-                .download-btn {
-                    display: block;
-                    width: 200px;
-                    margin: 30px auto;
-                    background: #D4AF37;
-                    color: #0F172A;
-                    text-align: center;
-                    padding: 15px;
-                    border-radius: 50px;
-                    text-decoration: none;
-                    font-weight: 800;
-                    text-transform: uppercase;
-                    font-size: 14px;
-                    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-                }
-                
-                .h1-email {
-                    color: #F1F5F9;
-                    text-align: center;
-                    margin-top: 30px;
-                    font-size: 20px;
-                }
-                .p-email {
-                    color: #94A3B8;
-                    text-align: center;
-                    font-size: 14px;
-                    margin-bottom: 30px;
-                }
-                
-                 <div style="text-align: center; padding: 20px; color: #475569; font-size: 12px;">
-                    © ${new Date().getFullYear()} VisionR AI Agency
+                body { margin: 0; padding: 0; background-color: #0F172A; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #F1F5F9; }
+                .wrapper { width: 100%; table-layout: fixed; background-color: #0F172A; padding-bottom: 40px; }
+                .main { background-color: #1E293B; margin: 0 auto; width: 100%; max-width: 600px; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.3); border: 1px solid #334155; }
+                .header { background: radial-gradient(circle at center, #1E293B 0%, #0F172A 100%); padding: 40px 20px; text-align: center; border-bottom: 2px solid #D4AF37; }
+                .logo-text { color: #D4AF37; font-size: 24px; font-weight: bold; letter-spacing: 4px; text-transform: uppercase; margin: 0; }
+                .content { padding: 40px 30px; text-align: center; }
+                .h1 { color: #F1F5F9; font-size: 24px; font-weight: 800; margin: 0 0 15px 0; line-height: 1.4; }
+                .p { color: #94A3B8; font-size: 16px; line-height: 1.6; margin: 0 0 25px 0; }
+                .highlight { color: #D4AF37; font-weight: bold; }
+                .box-info { background: #0F172A; border-left: 4px solid #D4AF37; padding: 20px; text-align: left; border-radius: 8px; margin: 30px 0; }
+                .box-label { color: #64748B; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+                .box-value { color: #F1F5F9; font-size: 18px; font-weight: bold; }
+                .cta-button { display: inline-block; background: #D4AF37; color: #0F172A; text-decoration: none; padding: 16px 32px; border-radius: 50px; font-weight: bold; font-size: 16px; text-transform: uppercase; margin: 20px 0; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
+                .footer { text-align: center; padding: 20px; color: #475569; font-size: 12px; border-top: 1px solid #334155; background: #020617; }
+                .pdf-note { background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.3); color: #34D399; padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 20px; display: inline-block; }
+            </style>
+        </head>
+        <body>
+            <div class="wrapper">
+                <div class="main">
+                    <!-- Header -->
+                    <div class="header">
+                        <div class="logo-text">VisionR Event</div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="content">
+                        <h1 class="h1">Félicitations, <span class="highlight">${name}</span> !</h1>
+                        
+                        <p class="p">
+                            Votre inscription pour la formation <strong style="color: #F8FAFC;">${formationName}</strong> est officiellement confirmée.
+                        </p>
+
+                        <div class="box-info">
+                            <div style="margin-bottom: 15px;">
+                                <div class="box-label">ID Participant</div>
+                                <div class="box-value" style="font-family: monospace;">#${formattedId}</div>
+                            </div>
+                            <div>
+                                <div class="box-label">Statut</div>
+                                <div class="box-value" style="color: #34D399; display: flex; align-items: center; gap: 5px;">
+                                    ✅ Paiement Validé
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="p">
+                            Votre <strong>BADGE D'ACCÈS OFFICIEL</strong> se trouve en pièce jointe de cet email (Format PDF).
+                        </p>
+                        
+                        <div class="pdf-note">
+                            📎 Voir le fichier PDF attaché ci-dessous
+                        </div>
+
+                        <br><br>
+
+                        <a href="${verifyUrl}" class="cta-button">Vérifier mon inscription en ligne</a>
+                        
+                        <p class="p" style="font-size: 14px; margin-top: 30px;">
+                            En cas de question, notre équipe support est disponible sur WhatsApp au : <strong style="color: #F1F5F9;">${whatsapp}</strong>
+                        </p>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="footer">
+                        &copy; ${year} VisionR AI Agency. Tous droits réservés.<br>
+                        Ceci est un mail automatique, merci de ne pas y répondre directement.
+                    </div>
                 </div>
             </div>
         </body>
