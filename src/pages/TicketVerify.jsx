@@ -4,6 +4,7 @@ import { CheckCircle, XCircle, Loader2, Award, Download } from 'lucide-react';
 import { motion } from 'framer-motion';
 import html2canvas from 'html2canvas';
 import { QRCodeSVG } from 'qrcode.react';
+import { jsPDF } from "jspdf";
 
 const TicketVerify = () => {
     const { id } = useParams();
@@ -50,10 +51,8 @@ const TicketVerify = () => {
             const btn = document.querySelector('.download-btn-action');
             if (btn) btn.innerText = "Génération PDF...";
 
-            // Dynamically import jsPDF to avoid SSR issues if any
-            const { jsPDF } = await import('jspdf');
-
             // Create PDF (A5 format is good for tickets, or stick to A4)
+            // Note: jsPDF is imported at top level now
             const doc = new jsPDF({
                 orientation: 'portrait',
                 unit: 'mm',
@@ -131,7 +130,9 @@ const TicketVerify = () => {
             doc.text(`ID: #${ticket.id.toString().padStart(6, '0')}`, 124, 196, { align: 'right' });
 
             // --- Save ---
-            doc.save(`VisionR-Ticket-${ticket.full_name.replace(/\s+/g, '_')}.pdf`);
+            const fileName = `VisionR-Ticket-${ticket.full_name.replace(/\s+/g, '_')}.pdf`;
+            doc.save(fileName);
+            // alert(`Téléchargement lancé : ${fileName}`);
 
             if (btn) {
                 btn.innerHTML = `<div style="display:flex; align-items:center; justifyContent:center; gap:10px;"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg> Télécharger mon Ticket</div>`;
@@ -139,7 +140,7 @@ const TicketVerify = () => {
 
         } catch (err) {
             console.error("PDF Download failed", err);
-            alert("Erreur lors de la génération du PDF. Veuillez réessayer.");
+            alert(`Erreur : ${err.message}`);
             const btn = document.querySelector('.download-btn-action');
             if (btn) btn.innerText = "Réessayer le téléchargement";
         }
