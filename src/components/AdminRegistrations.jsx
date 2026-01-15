@@ -221,7 +221,7 @@ const AdminRegistrations = () => {
                                             >
                                                 <Eye size={14} /> Voir
                                             </button>
-                                            {reg.status === 'paiement_envoye' && (
+                                            {(reg.status === 'paiement_envoye' || reg.status === 'demande_recue') && (
                                                 <button
                                                     onClick={() => confirmInscription(reg.id)}
                                                     style={{
@@ -319,7 +319,7 @@ const AdminRegistrations = () => {
                             )}
                         </div>
 
-                        {selectedReg.status === 'paiement_envoye' && (
+                        {(selectedReg.status === 'paiement_envoye' || selectedReg.status === 'demande_recue') && (
                             <button
                                 onClick={() => {
                                     confirmInscription(selectedReg.id);
