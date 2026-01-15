@@ -22,7 +22,7 @@ const TicketVerify = () => {
             // Small delay to ensure rendering is complete
             setTimeout(() => {
                 downloadTicket();
-            }, 1000);
+            }, 1500);
         }
     }, [ticket]);
 
@@ -47,19 +47,38 @@ const TicketVerify = () => {
         if (!ticketRef.current) return;
 
         try {
+            // Show feedback
+            const btn = document.querySelector('.download-btn-action');
+            if (btn) btn.innerText = "Génération en cours...";
+
+            // Wait a bit for images to load if needed
+            await new Promise(resolve => setTimeout(resolve, 500));
+
             const canvas = await html2canvas(ticketRef.current, {
                 backgroundColor: '#1E293B',
-                scale: 2
+                scale: 2,
+                useCORS: true,
+                logging: false,
+                allowTaint: true
             });
 
             const image = canvas.toDataURL("image/png");
             const link = document.createElement('a');
             link.href = image;
-            link.download = `VisionR-Ticket-${ticket.full_name.replace(/\s+/g, '_')}.png`;
+            link.download = `VisionR-Ticket-${ticket.full_name ? ticket.full_name.replace(/\s+/g, '_') : 'Invite'}.png`;
+            document.body.appendChild(link);
             link.click();
+            document.body.removeChild(link);
+
+            if (btn) {
+                btn.innerHTML = `<div style="display:flex; align-items:center; gap:10px;"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg> Télécharger mon Ticket</div>`;
+            }
+
         } catch (err) {
             console.error("Download failed", err);
-            alert("Erreur lors du téléchargement");
+            alert("Le téléchargement automatique a échoué. Vous pouvez faire une capture d'écran du ticket.");
+            const btn = document.querySelector('.download-btn-action');
+            if (btn) btn.innerText = "Réessayer le téléchargement";
         }
     };
 
@@ -198,6 +217,7 @@ const TicketVerify = () => {
             {/* Download Action */}
             {isValid && (
                 <button
+                    className="download-btn-action"
                     onClick={downloadTicket}
                     style={{
                         marginTop: '30px',
@@ -211,9 +231,12 @@ const TicketVerify = () => {
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
+                        justifyContent: 'center',
                         gap: '10px',
                         boxShadow: '0 10px 25px -5px rgba(212, 175, 55, 0.4)',
-                        transition: 'transform 0.2s'
+                        transition: 'transform 0.2s',
+                        width: '100%',
+                        maxWidth: '300px'
                     }}
                     onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
                     onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
