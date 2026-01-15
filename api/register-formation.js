@@ -164,15 +164,15 @@ function generatePaymentInstructionsEmail(name, formationName, amount, whatsapp)
                     <h3 style="color: #0F172A; margin-top: 30px;">🔹 Méthodes de paiement disponibles :</h3>
                     
                     <div class="payment-methods">
-                        <div class="payment-card" style="background: linear-gradient(135deg, #FFE5B4, #FFF8DC); border: 2px solid #FFD700;">
-                            <div style="font-size: 32px; margin-bottom: 8px;">📱</div>
-                            <div class="payment-logo" style="color: #D4AF37; font-weight: 800;">Wave</div>
-                            <div class="payment-number" style="color: #0F172A;">70 492 52 39</div>
+                        <div class="payment-card">
+                            <img src="https://visionr-studio-git-master-ecstasys-projects-90a34c79.vercel.app/wave-logo.png" alt="Wave" style="height: 40px; width: 40px; object-fit: contain; margin-bottom: 10px;">
+                            <div class="payment-logo">Wave</div>
+                            <div class="payment-number">70 492 52 39</div>
                         </div>
-                        <div class="payment-card" style="background: linear-gradient(135deg, #FFE5CC, #FFF0E0); border: 2px solid #FF6600;">
-                            <div style="font-size: 32px; margin-bottom: 8px;">🟠</div>
-                            <div class="payment-logo" style="color: #FF6600; font-weight: 800;">Orange Money</div>
-                            <div class="payment-number" style="color: #0F172A;">70 492 52 39</div>
+                        <div class="payment-card">
+                            <img src="https://visionr-studio-git-master-ecstasys-projects-90a34c79.vercel.app/orange-money-logo.png" alt="Orange Money" style="height: 40px; width: 40px; object-fit: contain; margin-bottom: 10px;">
+                            <div class="payment-logo">Orange Money</div>
+                            <div class="payment-number">70 492 52 39</div>
                         </div>
                     </div>
                     
