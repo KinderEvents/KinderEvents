@@ -87,17 +87,48 @@ export default async function handler(req, res) {
             updateData.payment_proof_url = payment_proof_url;
         }
 
+        // Add payment method if provided (requires migration to allow this column)
+        const { payment_method } = req.body;
+        if (payment_method) {
+            updateData.payment_method = payment_method;
+        }
+
         // Add confirmation timestamp if confirming
         if (new_status === 'inscription_confirmee') {
             updateData.confirmed_at = new Date();
         }
 
         // Update registration
-        const { data, error } = await supabase
-            .from('registrations')
-            .update(updateData)
-            .eq('id', registration_id)
-            .select();
+        // We catch the error specifically for missing column to not crash everything if migration isn't run
+        let data, error;
+        try {
+            const result = await supabase
+                .from('registrations')
+                .update(updateData)
+                .eq('id', registration_id)
+                .select();
+            data = result.data;
+            error = result.error;
+        } catch (err) {
+            console.error('Database Update Exception:', err);
+            // If update fails (e.g. column missing), allow fallback? 
+            // No, Supabase usually handles this via `error`.
+        }
+
+        if (error) {
+            // If error is about missing column 'payment_method', try updating without it
+            if (error.message && error.message.includes('payment_method')) {
+                console.warn('Column payment_method missing, retrying without it...');
+                delete updateData.payment_method;
+                const retry = await supabase
+                    .from('registrations')
+                    .update(updateData)
+                    .eq('id', registration_id)
+                    .select();
+                data = retry.data;
+                error = retry.error;
+            }
+        }
 
         if (error) {
             console.error('Supabase Update Error:', error);
