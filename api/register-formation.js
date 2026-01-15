@@ -162,6 +162,7 @@ function generatePaymentInstructionsEmail(name, formationName, amount, whatsapp)
                     </div>
                     
                     <h3 style="color: #0F172A; margin-top: 30px;">🔹 Méthodes de paiement disponibles :</h3>
+                    <!-- Logos de paiement mis à jour -->
                     
                     <div class="payment-methods">
                         <div class="payment-card">
