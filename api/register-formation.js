@@ -166,12 +166,12 @@ function generatePaymentInstructionsEmail(name, formationName, amount, whatsapp)
                     
                     <div class="payment-methods">
                         <div class="payment-card">
-                            <img src="https://visionr-studio-git-master-ecstasys-projects-90a34c79.vercel.app/wave-logo.png" alt="Wave" style="height: 40px; width: 40px; object-fit: contain; margin-bottom: 10px;">
+                            <img src="https://play-lh.googleusercontent.com/nJGWk2N9-c0dYL22_Z4q6qF_oT4y=s180-rw" alt="Wave" style="height: 50px; width: 50px; object-fit: contain; margin-bottom: 10px; border-radius: 10px;">
                             <div class="payment-logo">Wave</div>
                             <div class="payment-number">70 492 52 39</div>
                         </div>
                         <div class="payment-card">
-                            <img src="https://visionr-studio-git-master-ecstasys-projects-90a34c79.vercel.app/orange-money-logo.png" alt="Orange Money" style="height: 40px; width: 40px; object-fit: contain; margin-bottom: 10px;">
+                            <img src="https://play-lh.googleusercontent.com/5uQ56ogLdX4v7a20hX6q8k20hX6q8k20=s180-rw" alt="Orange Money" style="height: 50px; width: 50px; object-fit: contain; margin-bottom: 10px; border-radius: 10px;">
                             <div class="payment-logo">Orange Money</div>
                             <div class="payment-number">70 492 52 39</div>
                         </div>
