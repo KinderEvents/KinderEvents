@@ -165,12 +165,14 @@ function generatePaymentInstructionsEmail(name, formationName, amount, whatsapp)
                     
                     <div class="payment-methods">
                         <div class="payment-card">
-                            <div class="payment-logo">📱 Wave</div>
-                            <div class="payment-number">77 704 92 52 39</div>
+                            <img src="https://wave.com/assets/img/logo/wave-logo.svg" alt="Wave" style="height: 30px; margin-bottom: 10px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <div class="payment-logo" style="display: none;">📱 Wave</div>
+                            <div class="payment-number">70 492 52 39</div>
                         </div>
                         <div class="payment-card">
-                            <div class="payment-logo">🟠 Orange Money</div>
-                            <div class="payment-number">77 704 92 52 39</div>
+                            <img src="https://www.orange.sn/content/dam/orange/countries/senegal/logo/logo-orange-money.png" alt="Orange Money" style="height: 30px; margin-bottom: 10px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <div class="payment-logo" style="display: none;">🟠 Orange Money</div>
+                            <div class="payment-number">70 492 52 39</div>
                         </div>
                     </div>
                     
@@ -184,7 +186,7 @@ function generatePaymentInstructionsEmail(name, formationName, amount, whatsapp)
                         
                         <div class="step">
                             <div class="step-number">2</div>
-                            <div>Envoyez la preuve par <strong>WhatsApp : 77 704 92 52 39</strong> ou par <strong>email : eventskinder@gmail.com</strong></div>
+                            <div>Envoyez la preuve par <strong>WhatsApp : 70 492 52 39</strong> ou par <strong>email : eventskinder@gmail.com</strong></div>
                         </div>
                         
                         <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 8px;">
@@ -193,7 +195,7 @@ function generatePaymentInstructionsEmail(name, formationName, amount, whatsapp)
                         </div>
                     </div>
                     
-                    <p style="margin-top: 30px;">Vous avez des questions ? Contactez-nous sur WhatsApp au <strong>${whatsapp}</strong>.</p>
+                    <p style="margin-top: 30px;">Vous avez des questions ? Contactez-nous sur WhatsApp au <strong>70 492 52 39</strong>.</p>
                     
                     <center>
                         <a href="https://wa.me/221704925239" class="btn">Contacter sur WhatsApp</a>
