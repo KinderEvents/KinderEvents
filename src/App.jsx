@@ -4,6 +4,7 @@ import { Navbar, Footer } from './components';
 import Home from './pages/Home';
 import Blog from './pages/Blog';
 import Booking from './pages/Booking';
+import Formation from './pages/Formation';
 import Admin from './pages/Admin';
 import PaymentStatus from './pages/PaymentStatus';
 import TicketVerify from './pages/TicketVerify';
