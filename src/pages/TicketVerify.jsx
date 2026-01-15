@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { CheckCircle, XCircle, Loader2, Award } from 'lucide-react';
+import { CheckCircle, XCircle, Loader2, Award, Download } from 'lucide-react';
 import { motion } from 'framer-motion';
+import html2canvas from 'html2canvas';
 
 const TicketVerify = () => {
     const { id } = useParams();
     const [ticket, setTicket] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const ticketRef = useRef(null);
 
     useEffect(() => {
         fetchTicket();
@@ -27,6 +29,26 @@ const TicketVerify = () => {
             setError('Erreur de connexion');
         } finally {
             setLoading(false);
+        }
+    };
+
+    const downloadTicket = async () => {
+        if (!ticketRef.current) return;
+
+        try {
+            const canvas = await html2canvas(ticketRef.current, {
+                backgroundColor: '#1E293B',
+                scale: 2
+            });
+
+            const image = canvas.toDataURL("image/png");
+            const link = document.createElement('a');
+            link.href = image;
+            link.download = `VisionR-Ticket-${ticket.full_name.replace(/\s+/g, '_')}.png`;
+            link.click();
+        } catch (err) {
+            console.error("Download failed", err);
+            alert("Erreur lors du téléchargement");
         }
     };
 
@@ -56,12 +78,14 @@ const TicketVerify = () => {
             minHeight: '100vh',
             background: '#0F172A',
             display: 'flex',
+            flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
             padding: '20px',
             fontFamily: 'Helvetica Neue, sans-serif'
         }}>
             <motion.div
+                ref={ticketRef}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 style={{
@@ -72,7 +96,8 @@ const TicketVerify = () => {
                     padding: '40px 20px',
                     textAlign: 'center',
                     border: '1px solid #334155',
-                    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
+                    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+                    position: 'relative'
                 }}
             >
                 {/* Status Icon */}
@@ -158,6 +183,34 @@ const TicketVerify = () => {
                     Système de vérification VisionR
                 </div>
             </motion.div>
+
+            {/* Download Action */}
+            {isValid && (
+                <button
+                    onClick={downloadTicket}
+                    style={{
+                        marginTop: '30px',
+                        background: '#D4AF37',
+                        color: '#0F172A',
+                        border: 'none',
+                        padding: '16px 32px',
+                        borderRadius: '50px',
+                        fontSize: '16px',
+                        fontWeight: '700',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '10px',
+                        boxShadow: '0 10px 25px -5px rgba(212, 175, 55, 0.4)',
+                        transition: 'transform 0.2s'
+                    }}
+                    onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                    onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                >
+                    <Download size={20} />
+                    Télécharger mon Ticket
+                </button>
+            )}
         </div>
     );
 };
