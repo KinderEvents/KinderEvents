@@ -116,7 +116,8 @@ export default async function handler(req, res) {
                     html: generateConfirmationEmail(
                         currentReg.full_name,
                         currentReg.formation_type,
-                        currentReg.whatsapp
+                        currentReg.whatsapp,
+                        currentReg.id // Add ID for the badge
                     )
                 });
 
@@ -144,7 +145,9 @@ export default async function handler(req, res) {
 /**
  * Generate Confirmation Email Template
  */
-function generateConfirmationEmail(name, formationName, whatsapp) {
+function generateConfirmationEmail(name, formationName, whatsapp, id = 0) {
+    const formattedId = id.toString().padStart(6, '0');
+
     return `
         <!DOCTYPE html>
         <html>
@@ -152,72 +155,113 @@ function generateConfirmationEmail(name, formationName, whatsapp) {
             <style>
                 body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #F8FAFC; margin: 0; padding: 0; }
                 .container { max-width: 600px; margin: 40px auto; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.05); }
-                .header { background: linear-gradient(135deg, #10B981, #059669); padding: 40px 20px; text-align: center; }
-                .logo-text { color: #ffffff; font-size: 24px; font-weight: 800; letter-spacing: 2px; }
+                .header { background-color: #0F172A; padding: 40px 20px; text-align: center; }
+                .logo-text { color: #ffffff; font-size: 24px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; }
+                .logo-accent { color: #F59E0B; }
                 .content { padding: 40px 30px; color: #334155; line-height: 1.6; }
-                .success-badge { background: #ECFDF5; border: 2px solid #10B981; padding: 20px; border-radius: 12px; text-align: center; margin: 25px 0; }
-                .checkmark { font-size: 48px; color: #10B981; margin-bottom: 10px; }
-                .info-box { background: #F8FAFC; padding: 20px; border-radius: 8px; margin: 20px 0; }
-                .info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #E2E8F0; }
-                .info-label { color: #64748B; font-weight: 500; }
-                .info-value { color: #0F172A; font-weight: 600; }
+                .h1 { color: #0F172A; font-size: 24px; font-weight: 800; margin-top: 0; margin-bottom: 10px; text-align: center; }
+                .subtitle { text-align: center; color: #64748B; margin-bottom: 30px; }
+                
+                /* BADGE DESIGN */
+                .badge-container {
+                    background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+                    border: 2px solid #D4AF37;
+                    border-radius: 12px;
+                    padding: 2px;
+                    margin: 30px 0;
+                    position: relative;
+                    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+                }
+                .badge-inner {
+                    background: #0F172A;
+                    border: 1px dashed #475569;
+                    border-radius: 10px;
+                    padding: 25px;
+                    text-align: center;
+                    color: white;
+                    background-image: radial-gradient(#334155 1px, transparent 1px);
+                    background-size: 20px 20px;
+                }
+                .badge-header {
+                    color: #D4AF37;
+                    font-size: 12px;
+                    letter-spacing: 3px;
+                    text-transform: uppercase;
+                    margin-bottom: 15px;
+                    font-weight: 700;
+                }
+                .badge-name {
+                    font-size: 28px;
+                    font-weight: 800;
+                    background: linear-gradient(to right, #F59E0B, #D4AF37, #F59E0B);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                    color: #D4AF37;
+                    margin: 10px 0;
+                    text-transform: uppercase;
+                }
+                .badge-formation {
+                    font-size: 16px;
+                    color: #94A3B8;
+                    margin-bottom: 20px;
+                }
+                .badge-footer {
+                    border-top: 1px solid #334155;
+                    padding-top: 15px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    font-size: 10px;
+                    color: #64748B;
+                }
+                .verified-icon {
+                    color: #10B981;
+                    font-size: 14px;
+                    margin-right: 5px;
+                }
+                
+                .button { display: inline-block; background: #0F172A; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 50px; font-weight: 600; margin-top: 20px; }
                 .footer { background-color: #F1F5F9; padding: 20px; text-align: center; color: #94A3B8; font-size: 12px; }
-                .btn { display: inline-block; background: #2563EB; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; margin-top: 10px; }
             </style>
         </head>
         <body>
             <div class="container">
                 <div class="header">
-                    <div class="logo-text">Vision<span style="color: #F59E0B;">R</span></div>
-                    <div style="color: rgba(255,255,255,0.9); margin-top: 8px; font-size: 14px;">Formations Professionnelles</div>
+                    <div class="logo-text">Vision<span class="logo-accent">R</span></div>
                 </div>
-                
                 <div class="content">
-                    <div class="success-badge">
-                        <div class="checkmark">✅</div>
-                        <h2 style="margin: 10px 0; color: #10B981;">Paiement reçu !</h2>
-                        <p style="margin: 5px 0; color: #64748B;">Votre inscription est maintenant confirmée</p>
-                    </div>
+                    <h1 class="h1">FÉLICITATIONS !</h1>
+                    <p class="subtitle">Votre inscription est officiellement confirmée.</p>
                     
-                    <h3 style="color: #0F172A;">Bonjour ${name},</h3>
+                    <p>Bonjour <strong>${name}</strong>,</p>
+                    <p>Nous avons bien reçu votre paiement. Vous faites désormais partie de l'élite VisionR.</p>
+                    <p>Voici votre badge d'accès officiel :</p>
                     
-                    <p>Félicitations ! Votre inscription à <strong>${formationName}</strong> est maintenant <strong>confirmée</strong>.</p>
-                    
-                    <div class="info-box">
-                        <h4 style="margin-top: 0; color: #0F172A;">📅 Détails de la formation</h4>
-                        <div class="info-row">
-                            <span class="info-label">Formation</span>
-                            <span class="info-value">${formationName}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Date</span>
-                            <span class="info-value">À confirmer prochainement</span>
-                        </div>
-                        <div class="info-row" style="border-bottom: none;">
-                            <span class="info-label">Lieu / Lien</span>
-                            <span class="info-value">Envoyé par WhatsApp</span>
+                    <!-- OFFICIAL BADGE -->
+                    <div class="badge-container">
+                        <div class="badge-inner">
+                            <div class="badge-header">★ MEMBRE OFFICIEL ★</div>
+                            <div class="badge-name">${name}</div>
+                            <div class="badge-formation">${formationName || 'Formation IA'}</div>
+                            
+                            <div class="badge-footer">
+                                <div>ID: #${formattedId}</div>
+                                <div><span class="verified-icon">✓</span> PAIEMENT VALIDÉ</div>
+                            </div>
                         </div>
                     </div>
                     
-                    <div style="background: #FFFBEB; border-left: 4px solid #F59E0B; padding: 20px; margin: 25px 0; border-radius: 4px;">
-                        <h4 style="margin-top: 0; color: #B45309;">🚀 Prochaines étapes</h4>
-                        <p style="margin: 0;">Notre équipe va vous contacter sur WhatsApp au <strong>${whatsapp}</strong> sous 24h pour vous donner vos accès et les détails de la formation.</p>
-                    </div>
-                    
-                    <p style="margin-top: 30px;">Bienvenue dans la formation ! 🎓</p>
+                    <p style="text-align: center; margin-top: 30px;">
+                        Notre équipe vous contactera très prochainement sur WhatsApp au <strong>${whatsapp}</strong> pour vous transmettre vos accès.
+                    </p>
                     
                     <center>
-                        <a href="https://wa.me/221704925239" class="btn">Rejoindre le groupe WhatsApp</a>
+                        <a href="https://visionr-studio-git-master-ecstasys-projects-90a34c79.vercel.app" class="button">Accéder au site</a>
                     </center>
-                    
-                    <p style="margin-top: 30px; font-size: 14px; color: #64748B;">
-                        Des questions ? Contactez-nous à tout moment sur WhatsApp ou par email.
-                    </p>
                 </div>
-                
                 <div class="footer">
-                    &copy; 2025 VisionR AI Agency. Tous droits réservés.<br>
-                    Dakar, Sénégal
+                    &copy; ${new Date().getFullYear()} VisionR AI Agency. Tous droits réservés.
                 </div>
             </div>
         </body>
