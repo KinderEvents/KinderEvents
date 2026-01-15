@@ -45,41 +45,101 @@ const TicketVerify = () => {
     };
 
     const downloadTicket = async () => {
-        if (!ticketRef.current) return;
-
         try {
             // Show feedback
             const btn = document.querySelector('.download-btn-action');
-            if (btn) btn.innerText = "Génération en cours...";
+            if (btn) btn.innerText = "Génération PDF...";
 
-            // Wait a bit for images/qr to load if needed
-            await new Promise(resolve => setTimeout(resolve, 500));
+            // Dynamically import jsPDF to avoid SSR issues if any
+            const { jsPDF } = await import('jspdf');
 
-            const canvas = await html2canvas(ticketRef.current, {
-                backgroundColor: '#1E293B',
-                scale: 2,
-                useCORS: true,
-                logging: false,
-                allowTaint: true
+            // Create PDF (A5 format is good for tickets, or stick to A4)
+            const doc = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a5'
             });
 
-            const image = canvas.toDataURL("image/png");
+            // --- Background & Styling ---
+            doc.setFillColor(15, 23, 42); // #0F172A (Dark Blue)
+            doc.rect(0, 0, 148, 210, 'F');
 
-            // Mobile-friendly download approach
-            const link = document.createElement('a');
-            link.href = image;
-            link.download = `VisionR-Ticket-${ticket.full_name ? ticket.full_name.replace(/\s+/g, '_') : 'Invite'}.png`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            doc.setFillColor(30, 41, 59); // #1E293B (Lighter Blue Card)
+            doc.roundedRect(14, 30, 120, 150, 5, 5, 'F');
+
+            // --- Header ---
+            doc.setTextColor(212, 175, 55); // #D4AF37 (Gold)
+            doc.setFontSize(22);
+            doc.setFont('helvetica', 'bold');
+            doc.text("VISIONR EVENT", 74, 50, { align: 'center' });
+
+            doc.setTextColor(148, 163, 184); // #94A3B8 (Slate 400)
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.text("BILLET OFFICIEL", 74, 58, { align: 'center' });
+
+            // --- QR Code ---
+            // We use the existing canvas or create a new one for the QR
+            const qrCanvas = document.querySelector("canvas");
+            if (qrCanvas) {
+                const qrDataUrl = qrCanvas.toDataURL("image/png");
+                doc.addImage(qrDataUrl, 'PNG', 49, 70, 50, 50);
+            }
+
+            // --- Status Badge ---
+            if (isValid) {
+                doc.setFillColor(6, 78, 59); // #064E3B (Green bg)
+                doc.setDrawColor(5, 150, 105); // #059669 (Green border)
+                doc.roundedRect(49, 125, 50, 10, 5, 5, 'FD');
+
+                doc.setTextColor(52, 211, 153); // #34D399 (Green text)
+                doc.setFontSize(10);
+                doc.setFont('helvetica', 'bold');
+                doc.text("CONFIRMÉ", 74, 131, { align: 'center' });
+            }
+
+            // --- Details Box ---
+            // doc.setDrawColor(51, 65, 85);
+            // doc.line(24, 145, 124, 145);
+
+            doc.setTextColor(148, 163, 184); // Label color
+            doc.setFontSize(8);
+            doc.text("PARTICIPANT", 24, 155);
+
+            doc.setTextColor(241, 245, 249); // Value color (White)
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'bold');
+            doc.text(ticket.full_name, 24, 162);
+
+            doc.setTextColor(148, 163, 184);
+            doc.setFontSize(8);
+            doc.setFont('helvetica', 'normal');
+            doc.text("FORMATION", 24, 175);
+
+            doc.setTextColor(212, 175, 55); // Gold
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'bold');
+            doc.text(ticket.formation_type, 24, 182);
+
+            // --- Footer Info ---
+            doc.setDrawColor(51, 65, 85);
+            doc.line(24, 190, 124, 190);
+
+            doc.setTextColor(148, 163, 184);
+            doc.setFontSize(8);
+            doc.text(`DATE: ${new Date(ticket.confirmed_at || ticket.created_at).toLocaleDateString()}`, 24, 196);
+            doc.text(`ID: #${ticket.id.toString().padStart(6, '0')}`, 124, 196, { align: 'right' });
+
+            // --- Save ---
+            doc.save(`VisionR-Ticket-${ticket.full_name.replace(/\s+/g, '_')}.pdf`);
 
             if (btn) {
                 btn.innerHTML = `<div style="display:flex; align-items:center; justifyContent:center; gap:10px;"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg> Télécharger mon Ticket</div>`;
             }
 
         } catch (err) {
-            console.error("Download failed", err);
-            alert("Le téléchargement automatique a échoué. Vous pouvez faire une capture d'écran du ticket.");
+            console.error("PDF Download failed", err);
+            alert("Erreur lors de la génération du PDF. Veuillez réessayer.");
             const btn = document.querySelector('.download-btn-action');
             if (btn) btn.innerText = "Réessayer le téléchargement";
         }
