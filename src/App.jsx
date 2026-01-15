@@ -7,6 +7,7 @@ import Booking from './pages/Booking';
 import Formation from './pages/Formation';
 import Admin from './pages/Admin';
 import PaymentStatus from './pages/PaymentStatus';
+import TicketVerify from './pages/TicketVerify';
 import './styles/global.css';
 
 // Component to handle scroll to top on route change
@@ -38,6 +39,7 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/payment/success" element={<PaymentStatus type="success" />} />
           <Route path="/payment/cancel" element={<PaymentStatus type="cancel" />} />
+          <Route path="/verify/:id" element={<TicketVerify />} />
         </Routes>
         <Footer />
       </div>
