@@ -367,7 +367,7 @@ function generateConfirmationEmail(name, formationName, whatsapp, id = 0) {
                     </div>
                 </div>
                 
-                <a href="#" class="download-btn">📲 Télécharger le Ticket</a>
+                <a href="${verifyUrl}" class="download-btn">📲 Télécharger le Ticket</a>
                 
                 <p class="p-email" style="font-size: 12px; margin-top: 20px;">
                     Gardez ce ticket précieusement. En cas de besoin, contactez-nous sur WhatsApp : <strong>${whatsapp}</strong>
