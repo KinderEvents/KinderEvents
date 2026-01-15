@@ -331,9 +331,8 @@ function generateConfirmationEmail(name, formationName, whatsapp, id = 0) {
                             📎 Voir le fichier PDF attaché ci-dessous
                         </div>
 
-                        <br><br>
 
-                        <a href="${verifyUrl}" class="cta-button">Vérifier mon inscription en ligne</a>
+                        <br><br>
                         
                         <p class="p" style="font-size: 14px; margin-top: 30px;">
                             En cas de question, notre équipe support est disponible sur WhatsApp au : <strong style="color: #F1F5F9;">${whatsapp}</strong>
