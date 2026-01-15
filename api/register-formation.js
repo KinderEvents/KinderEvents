@@ -166,11 +166,11 @@ function generatePaymentInstructionsEmail(name, formationName, amount, whatsapp)
                     <div class="payment-methods">
                         <div class="payment-card">
                             <div class="payment-logo">📱 Wave</div>
-                            <div class="payment-number">77 XXX XX XX</div>
+                            <div class="payment-number">77 704 92 52 39</div>
                         </div>
                         <div class="payment-card">
                             <div class="payment-logo">🟠 Orange Money</div>
-                            <div class="payment-number">77 XXX XX XX</div>
+                            <div class="payment-number">77 704 92 52 39</div>
                         </div>
                     </div>
                     
@@ -184,7 +184,7 @@ function generatePaymentInstructionsEmail(name, formationName, amount, whatsapp)
                         
                         <div class="step">
                             <div class="step-number">2</div>
-                            <div>Envoyez la preuve par <strong>WhatsApp : 77 XXX XX XX</strong> ou par <strong>email : contact@…</strong></div>
+                            <div>Envoyez la preuve par <strong>WhatsApp : 77 704 92 52 39</strong> ou par <strong>email : eventskinder@gmail.com</strong></div>
                         </div>
                         
                         <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 8px;">
