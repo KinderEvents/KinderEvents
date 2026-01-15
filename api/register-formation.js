@@ -164,15 +164,15 @@ function generatePaymentInstructionsEmail(name, formationName, amount, whatsapp)
                     <h3 style="color: #0F172A; margin-top: 30px;">🔹 Méthodes de paiement disponibles :</h3>
                     
                     <div class="payment-methods">
-                        <div class="payment-card">
-                            <img src="https://wave.com/assets/img/logo/wave-logo.svg" alt="Wave" style="height: 30px; margin-bottom: 10px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                            <div class="payment-logo" style="display: none;">📱 Wave</div>
-                            <div class="payment-number">70 492 52 39</div>
+                        <div class="payment-card" style="background: linear-gradient(135deg, #FFE5B4, #FFF8DC); border: 2px solid #FFD700;">
+                            <div style="font-size: 32px; margin-bottom: 8px;">📱</div>
+                            <div class="payment-logo" style="color: #D4AF37; font-weight: 800;">Wave</div>
+                            <div class="payment-number" style="color: #0F172A;">70 492 52 39</div>
                         </div>
-                        <div class="payment-card">
-                            <img src="https://www.orange.sn/content/dam/orange/countries/senegal/logo/logo-orange-money.png" alt="Orange Money" style="height: 30px; margin-bottom: 10px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                            <div class="payment-logo" style="display: none;">🟠 Orange Money</div>
-                            <div class="payment-number">70 492 52 39</div>
+                        <div class="payment-card" style="background: linear-gradient(135deg, #FFE5CC, #FFF0E0); border: 2px solid #FF6600;">
+                            <div style="font-size: 32px; margin-bottom: 8px;">🟠</div>
+                            <div class="payment-logo" style="color: #FF6600; font-weight: 800;">Orange Money</div>
+                            <div class="payment-number" style="color: #0F172A;">70 492 52 39</div>
                         </div>
                     </div>
                     
