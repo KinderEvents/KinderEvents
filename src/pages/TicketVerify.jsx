@@ -9,11 +9,22 @@ const TicketVerify = () => {
     const [ticket, setTicket] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [searchParams] = useState(new URLSearchParams(window.location.search));
     const ticketRef = useRef(null);
 
     useEffect(() => {
         fetchTicket();
     }, [id]);
+
+    // Auto-download trigger
+    useEffect(() => {
+        if (ticket && ticketRef.current && searchParams.get('auto_down') === 'true') {
+            // Small delay to ensure rendering is complete
+            setTimeout(() => {
+                downloadTicket();
+            }, 1000);
+        }
+    }, [ticket]);
 
     const fetchTicket = async () => {
         try {

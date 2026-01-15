@@ -182,7 +182,13 @@ export default async function handler(req, res) {
 function generateConfirmationEmail(name, formationName, whatsapp, id = 0) {
     const formattedId = id.toString().padStart(6, '0');
     // QR Code links to the verification page
-    const verifyUrl = `https://visionr-studio-git-master-ecstasys-projects-90a34c79.vercel.app/verify/${id}`;
+    // Using the public production domain to avoid Vercel Auth issues on preview URLs
+    const baseUrl = 'https://visionr-studio.vercel.app';
+    const verifyUrl = `${baseUrl}/verify/${id}`;
+
+    // Valid for direct download link (triggers auto download on page load)
+    const downloadUrl = `${verifyUrl}?auto_down=true`;
+
     const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(verifyUrl)}&color=D4AF37&bgcolor=0F172A`;
 
     return `
@@ -367,7 +373,7 @@ function generateConfirmationEmail(name, formationName, whatsapp, id = 0) {
                     </div>
                 </div>
                 
-                <a href="${verifyUrl}" class="download-btn">📲 Télécharger le Ticket</a>
+                <a href="${downloadUrl}" class="download-btn">📲 Télécharger le Ticket</a>
                 
                 <p class="p-email" style="font-size: 12px; margin-top: 20px;">
                     Gardez ce ticket précieusement. En cas de besoin, contactez-nous sur WhatsApp : <strong>${whatsapp}</strong>
