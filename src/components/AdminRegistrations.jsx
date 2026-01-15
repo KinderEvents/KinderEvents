@@ -39,8 +39,8 @@ const AdminRegistrations = () => {
         }
     };
 
-    const confirmInscription = async (regId) => {
-        if (!confirm('Confirmer cette inscription ?')) return;
+    const confirmInscription = async (regId, method) => {
+        if (!confirm(`Confirmer cette inscription (Paiement via ${method}) ?`)) return;
 
         try {
             const response = await fetch('/api/update-registration-status', {
@@ -48,7 +48,8 @@ const AdminRegistrations = () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     registration_id: regId,
-                    new_status: 'inscription_confirmee'
+                    new_status: 'inscription_confirmee',
+                    payment_method: method
                 })
             });
 
@@ -222,21 +223,40 @@ const AdminRegistrations = () => {
                                                 <Eye size={14} /> Voir
                                             </button>
                                             {(reg.status === 'paiement_envoye' || reg.status === 'demande_recue') && (
-                                                <button
-                                                    onClick={() => confirmInscription(reg.id)}
-                                                    style={{
-                                                        padding: '8px 12px',
-                                                        background: '#10B981',
-                                                        color: 'white',
-                                                        border: 'none',
-                                                        borderRadius: '6px',
-                                                        cursor: 'pointer',
-                                                        fontSize: '0.85rem',
-                                                        fontWeight: '600'
-                                                    }}
-                                                >
-                                                    ✓ Confirmer
-                                                </button>
+                                                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                                                    <button
+                                                        onClick={() => confirmInscription(reg.id, 'Wave')}
+                                                        style={{
+                                                            padding: '6px 10px',
+                                                            background: '#3B82F6',
+                                                            color: 'white',
+                                                            border: 'none',
+                                                            borderRadius: '6px',
+                                                            cursor: 'pointer',
+                                                            fontSize: '0.75rem',
+                                                            fontWeight: '600',
+                                                            whiteSpace: 'nowrap'
+                                                        }}
+                                                    >
+                                                        ✓ Via Wave
+                                                    </button>
+                                                    <button
+                                                        onClick={() => confirmInscription(reg.id, 'Orange Money')}
+                                                        style={{
+                                                            padding: '6px 10px',
+                                                            background: '#F97316',
+                                                            color: 'white',
+                                                            border: 'none',
+                                                            borderRadius: '6px',
+                                                            cursor: 'pointer',
+                                                            fontSize: '0.75rem',
+                                                            fontWeight: '600',
+                                                            whiteSpace: 'nowrap'
+                                                        }}
+                                                    >
+                                                        ✓ Via OM
+                                                    </button>
+                                                </div>
                                             )}
                                         </div>
                                     </td>
@@ -320,26 +340,46 @@ const AdminRegistrations = () => {
                         </div>
 
                         {(selectedReg.status === 'paiement_envoye' || selectedReg.status === 'demande_recue') && (
-                            <button
-                                onClick={() => {
-                                    confirmInscription(selectedReg.id);
-                                    setSelectedReg(null);
-                                }}
-                                style={{
-                                    marginTop: '2rem',
-                                    width: '100%',
-                                    padding: '14px',
-                                    background: '#10B981',
-                                    color: 'white',
-                                    border: 'none',
-                                    borderRadius: '8px',
-                                    fontWeight: '600',
-                                    fontSize: '1rem',
-                                    cursor: 'pointer'
-                                }}
-                            >
-                                ✓ Confirmer cette inscription
-                            </button>
+                            <div style={{ display: 'flex', gap: '1rem', marginTop: '2rem' }}>
+                                <button
+                                    onClick={() => {
+                                        confirmInscription(selectedReg.id, 'Wave');
+                                        setSelectedReg(null);
+                                    }}
+                                    style={{
+                                        flex: 1,
+                                        padding: '14px',
+                                        background: '#3B82F6',
+                                        color: 'white',
+                                        border: 'none',
+                                        borderRadius: '8px',
+                                        fontWeight: '600',
+                                        fontSize: '1rem',
+                                        cursor: 'pointer'
+                                    }}
+                                >
+                                    ✓ Confirmer (Wave)
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        confirmInscription(selectedReg.id, 'Orange Money');
+                                        setSelectedReg(null);
+                                    }}
+                                    style={{
+                                        flex: 1,
+                                        padding: '14px',
+                                        background: '#F97316',
+                                        color: 'white',
+                                        border: 'none',
+                                        borderRadius: '8px',
+                                        fontWeight: '600',
+                                        fontSize: '1rem',
+                                        cursor: 'pointer'
+                                    }}
+                                >
+                                    ✓ Confirmer (OM)
+                                </button>
+                            </div>
                         )}
                     </div>
                 </div>
